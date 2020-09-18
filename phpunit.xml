@@ -1,0 +1,7 @@
+<testsuites>
+    <testsuite name="Socket layer tests">
+        <directory>./tests/unit/*</directory>
+        <file>./tests/unit/SocketTest.php</file>
+        <file>./tests/unit/SocketCredentialsTest.php</file>
+    </testsuite>
+</testsuites>
