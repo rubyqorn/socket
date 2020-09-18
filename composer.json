@@ -14,5 +14,7 @@
             "WebSocket\\": "src/"
         }
     },
-    "require": {}
+    "require": {
+        "phpunit/phpunit": "^9.3"
+    }
 }
