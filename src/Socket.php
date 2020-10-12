@@ -101,14 +101,27 @@ class Socket
     }
 
     /**
+     * Return resource of type Socket
+     * which was created right now. Can get
+     * access by connect method 
+     * @return resource 
+     */ 
+    public function getConnectedSocket()
+    {
+        return $this->socket;
+    }
+
+    /**
      * Initiates a connection on a socket
-     * @return bool 
+     * @return \WebSocket\Socket 
      */ 
     public function connect()
     {
-        return socket_connect(
+        socket_connect(
             $this->socket, $this->host, $this->port
         );
+
+        return $this;
     }
 
     /**

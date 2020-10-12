@@ -33,7 +33,7 @@ class SocketEndpoint
      * PHP socket API
      * @return \WebSocket\Socket 
      */ 
-    public function getSocket()
+    protected function getSocket()
     {
         return new Socket(
             $this->getCredentials()->getCredential('host'),
@@ -46,7 +46,7 @@ class SocketEndpoint
      * Usually use when wanted to create server socket 
      * @return resource|bool
      */ 
-    public function acceptConnectionOnSocket()
+    protected function acceptConnectionOnSocket()
     {
         return $this->getSocket()->acceptSocketConnection();
     }
@@ -56,9 +56,9 @@ class SocketEndpoint
      * when wanted to create client socket
      * @return resource|bool
      */ 
-    public function connectToSocket()
+    protected function connectToSocket()
     {
-        return $this->getSocket()->connect();
+        return $this->getSocket()->connect()->getConnectedSocket();
     }
 
     /**
