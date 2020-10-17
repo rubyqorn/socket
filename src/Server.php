@@ -58,4 +58,14 @@ class Server extends SocketEndpoint implements ISocketImplementer
 
         return $writtenMessage;
     }
+
+    /**
+     * Call Server destructor method when socket
+     * connection was broken 
+     * @return void 
+     */ 
+    public function __destruct()
+    {
+        return $this->closeSocketConnection($this->createdSocket);
+    }
 }

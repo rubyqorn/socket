@@ -27,6 +27,12 @@ class Socket
      */ 
     protected string $content = '';
 
+    protected $clientSocket;
+
+    protected $serverSocket;
+
+    protected $createdSocket;
+
     /**
      * Socket constructor method
      * @param string $host 
@@ -121,7 +127,7 @@ class Socket
             $this->socket, $this->host, $this->port
         );
 
-        return $this;
+        return $this->socket;
     }
 
     /**
@@ -151,11 +157,12 @@ class Socket
     }
 
     /**
-     * Socket detructor method which 
-     * close current listening socket 
+     * Close specified socket connection
+     * @param resource $socket 
+     * @return void 
      */ 
-    public function __destruct()
+    public function close($socket)
     {
-        socket_close($this->socket);
+        return socket_close($socket);
     }
 }

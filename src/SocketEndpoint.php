@@ -58,7 +58,7 @@ class SocketEndpoint
      */ 
     protected function connectToSocket()
     {
-        return $this->getSocket()->connect()->getConnectedSocket();
+        return $this->getSocket()->connect();
     }
 
     /**
@@ -80,5 +80,16 @@ class SocketEndpoint
     protected function readFromSocket($socket)
     {
         return $this->getSocket()->read($socket);
+    }
+
+    /**
+     * Close socket connection which was created
+     * acceptSocketConnection() or connectToSocket()
+     * @param resource $socket 
+     * @return void 
+     */ 
+    protected function closeSocketConnection($socket)
+    {
+        return $this->getSocket()->close($socket);
     }
 }

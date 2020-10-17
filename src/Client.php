@@ -1,18 +1,18 @@
-<?php
+<?php 
 
 namespace WebSocket;
 
 class Client extends SocketEndpoint implements ISocketImplementer
 {
     /**
-     * Create socket using connectToSocket
-     * method
-     * @var resource
+     * Socket resource created using 
+     * acceptSocketConnection method
+     * @var resource 
      */ 
-    private $createdSocket;
+    protected $createdSocket;
 
     /**
-     * Create connection for server socket
+     * Accept server socket connection
      * @return resource|\WebSocket\SocketError 
      */ 
     public function create()
@@ -20,42 +20,52 @@ class Client extends SocketEndpoint implements ISocketImplementer
         $this->createdSocket = $this->connectToSocket();
 
         if (!$this->createdSocket) {
-            return new SocketError('Can\'t create and connect to socket');
+            return new SocketError('Can\'t accepted connected socket');
         }
 
         return $this->createdSocket;
     }
 
     /**
-     * Read message from created server socket
-     * @return \WebSocket\SocketError|WebSocket\SocketMessage 
+     * Read message from accepted server socket 
+     * @return \WebSocket\SocketError|\WebSocket\SocketMessage 
      */ 
     public function read()
     {
-        $responseFromSocket = new SocketMessage(
+        $socketResponse = new SocketMessage(
             $this->readFromSocket($this->createdSocket)
         );
 
-        if (!$responseFromSocket->getSocketResponse()) {
-            return new SocketError('Can\'t read from server socket');
+        if (!$socketResponse->getSocketResponse()) {
+            return new SocketError('Can\'t read message from client socket');
         }
 
-        return $responseFromSocket;
+        return $socketResponse;
     }
 
     /**
-     * Write message to created server socket
-     * @param string $message
+     * Write message to server accepted socket 
+     * @param string $message 
      * @return int|\WebSocket\SocketError 
      */ 
     public function write(string $message)
     {
-        $writtenSocket = $this->write($message);
+        $writtenMessage = $this->writeToSocket($this->createdSocket, $message);
 
-        if (!$writtenSocket) {
-            return new SocketError('Can\'t write to server socket');
+        if (!$writtenMessage) {
+            return new SocketError('Can\'t write to accepted client socket');
         }
 
-        return $writtenSocket;
+        return $writtenMessage;
+    }
+
+    /**
+     * Call Client destructor method when socket
+     * connection was broken
+     * @return void
+     */ 
+    public function __destruct()
+    {
+        return $this->closeSocketConnection($this->createdSocket);
     }
 }
