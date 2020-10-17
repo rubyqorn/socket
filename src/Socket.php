@@ -25,7 +25,13 @@ class Socket
      * socket
      * @var string 
      */ 
-    protected string $content;
+    protected string $content = '';
+
+    protected $clientSocket;
+
+    protected $serverSocket;
+
+    protected $createdSocket;
 
     /**
      * Socket constructor method
@@ -50,52 +56,113 @@ class Socket
     }
 
     /**
-     * Initiates a connection on a socket
+     * Binds a name to a socket
      * @return bool 
      */ 
-    public function connect()
+    public function bind()
     {
-        return socket_connect(
-            $this->socket, $this->host, $this->port
-        );
+        return socket_bind($this->socket, $this->host, $this->port);
     }
 
     /**
-     * Write to a socket specified message
+     * Listens for a connection on a socket
+     * @return bool 
+     */ 
+    public function listen()
+    {
+        return socket_listen($this->socket, 1);
+    }
+
+    /**
+     * Accept a connection on a socket 
+     * @return resource  
+     */ 
+    public function accept()
+    {
+        return socket_accept($this->socket);
+    }
+
+    /**
+     * Bind, listen and return accepted socket
+     * connection 
+     * @return resource  
+     */ 
+    public function acceptSocketConnection()
+    {
+        if (!$this->bind()) {
+            return false;
+        }
+
+        if (!$this->listen()) {
+            return false;
+        }
+        
+        $acceptedSocket = $this->accept();
+
+        if (!$acceptedSocket) {
+            return false;
+        }
+
+        return $acceptedSocket;
+    }
+
+    /**
+     * Return resource of type Socket
+     * which was created right now. Can get
+     * access by connect method 
+     * @return resource 
+     */ 
+    public function getConnectedSocket()
+    {
+        return $this->socket;
+    }
+
+    /**
+     * Initiates a connection on a socket
+     * @return \WebSocket\Socket 
+     */ 
+    public function connect()
+    {
+        socket_connect(
+            $this->socket, $this->host, $this->port
+        );
+
+        return $this->socket;
+    }
+
+    /**
+     * Write to a socket specified messages
      * @param string $message 
      * @return int  
      */ 
-    public function write(string $message)
+    public function write($socket, string $message)
     {
         return socket_write(
-            $this->socket, $message, strlen($message)
+            $socket, $message, strlen($message)
         );
     }
 
     /**
      * Reads a maximum of length bytes from a socket
+     * @param resource $socket
      * @return string 
      */ 
-    public function read()
+    public function read($socket)
     {
-        $write = null;
-        $exception = null;
-
-        while(socket_select([$this->socket], $write, $exception, 0)) {
-            socket_recv(
-                $this->socket, $this->content, strlen($this->content), 0
-            );
+        while(socket_recv($socket, $buffer, 2048, 0)) {
+            $this->content .= $buffer;
         }
 
         return $this->content;
     }
 
     /**
-     * Socket detructor method which 
-     * close current listening socket 
+     * Close specified socket connection
+     * @param resource $socket 
+     * @return void 
      */ 
-    public function __destruct()
+    public function close($socket)
     {
-        socket_close($this->socket);
+        return socket_close($socket);
     }
 }

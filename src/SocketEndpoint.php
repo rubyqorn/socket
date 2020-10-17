@@ -3,7 +3,6 @@
 namespace WebSocket;
 
 use Websocket\Credential\ICredential;
-use WebSocket\SocketMessage;
 use WebSocket\Socket;
 
 class SocketEndpoint 
@@ -34,7 +33,7 @@ class SocketEndpoint
      * PHP socket API
      * @return \WebSocket\Socket 
      */ 
-    public function getSocket()
+    protected function getSocket()
     {
         return new Socket(
             $this->getCredentials()->getCredential('host'),
@@ -43,36 +42,54 @@ class SocketEndpoint
     }
 
     /**
-     * Write content from current listening socket
-     * @param string $message 
-     * @return int 
+     * Bind, listen and accept connection on socket.
+     * Usually use when wanted to create server socket 
+     * @return resource|bool
      */ 
-    protected function writeToSocket(string $message)
+    protected function acceptConnectionOnSocket()
+    {
+        return $this->getSocket()->acceptSocketConnection();
+    }
+
+    /**
+     * Connect to created to socket. Usually use
+     * when wanted to create client socket
+     * @return resource|bool
+     */ 
+    protected function connectToSocket()
+    {
+        return $this->getSocket()->connect();
+    }
+
+    /**
+     * Write content from current listening socket
+     * @param resource $socket 
+     * @param string $message 
+     * @return int
+     */ 
+    protected function writeToSocket($socket, string $message)
     {   
-        return $this->getSocket()->write($message);
+        return $this->getSocket()->write($socket, $message);
     }
 
     /**
      * Read content from current listening socket
-     * @return string 
+     * @param resource $socket
+     * @return string
      */ 
-    protected function readFromSocket()
+    protected function readFromSocket($socket)
     {
-        return $this->getSocket()->read();
+        return $this->getSocket()->read($socket);
     }
 
     /**
-     * Send message on listening socket and
-     * read response from socket
-     * @param string $message 
-     * @return string 
+     * Close socket connection which was created
+     * acceptSocketConnection() or connectToSocket()
+     * @param resource $socket 
+     * @return void 
      */ 
-    public function send(string $message)
+    protected function closeSocketConnection($socket)
     {
-        if (!$this->writeToSocket($message)) {
-            return false;
-        }
-
-        return $this->readFromSocket();
+        return $this->getSocket()->close($socket);
     }
 }
