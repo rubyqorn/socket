@@ -1,5 +1,5 @@
 {
-    "name": "rubyqorn/web-socket",
+    "name": "rubyqorn/socket",
     "description": "Socket layer over PHP socket api",
     "type": "library",
     "license": "MIT",
