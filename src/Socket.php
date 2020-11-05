@@ -1,6 +1,6 @@
 <?php 
 
-namespace WebSocket;
+namespace Qonsillium;
 
 class Socket 
 {
@@ -119,7 +119,7 @@ class Socket
 
     /**
      * Initiates a connection on a socket
-     * @return \WebSocket\Socket 
+     * @return \Qonsillium\Socket 
      */ 
     public function connect()
     {

@@ -1,6 +1,6 @@
 <?php 
 
-namespace WebSocket;
+namespace Qonsillium;
 
 class SocketError
 {

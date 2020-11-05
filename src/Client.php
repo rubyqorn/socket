@@ -1,6 +1,6 @@
 <?php 
 
-namespace WebSocket;
+namespace Qonsillium;
 
 class Client extends SocketEndpoint implements ISocketImplementer
 {
@@ -13,7 +13,7 @@ class Client extends SocketEndpoint implements ISocketImplementer
 
     /**
      * Accept server socket connection
-     * @return resource|\WebSocket\SocketError 
+     * @return resource|\Qonsillium\SocketError 
      */ 
     public function create()
     {
@@ -28,7 +28,7 @@ class Client extends SocketEndpoint implements ISocketImplementer
 
     /**
      * Read message from accepted server socket 
-     * @return \WebSocket\SocketError|\WebSocket\SocketMessage 
+     * @return \Qonsillium\SocketError|\Qonsillium\SocketMessage 
      */ 
     public function read()
     {
@@ -46,7 +46,7 @@ class Client extends SocketEndpoint implements ISocketImplementer
     /**
      * Write message to server accepted socket 
      * @param string $message 
-     * @return int|\WebSocket\SocketError 
+     * @return int|\Qonsillium\SocketError 
      */ 
     public function write(string $message)
     {
