@@ -1,9 +1,9 @@
 <?php 
 
-namespace WebSocket;
+namespace Qonsillium;
 
-use Websocket\Credential\ICredential;
-use WebSocket\Socket;
+use Qonsillium\Credential\ICredential;
+use Qonsillium\Socket;
 
 class SocketEndpoint 
 {
@@ -11,7 +11,7 @@ class SocketEndpoint
 
     /**
      * DI of SocketCredentials
-     * @param \Websocket\Credential\ICredential $credential
+     * @param \Qonsillium\Credential\ICredential $credential
      * @return void 
      */ 
     public function setCredentials(ICredential $credential)
@@ -31,7 +31,7 @@ class SocketEndpoint
     /**
      * Socket factory method which manipulate
      * PHP socket API
-     * @return \WebSocket\Socket 
+     * @return \Qonsillium\Socket 
      */ 
     protected function getSocket()
     {

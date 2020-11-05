@@ -1,6 +1,6 @@
 <?php 
 
-namespace WebSocket\Credential;
+namespace Qonsillium\Credential;
 
 class SocketCredentials implements ICredential
 {
