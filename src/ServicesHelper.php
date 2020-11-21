@@ -2,10 +2,6 @@
 
 namespace Qonsillium;
 
-use Qonsillium\Client;
-use Qonsillium\Server;
-use Qonsillium\Socket;
-use Qonsillium\SocketEndpoint;
 use Qonsillium\Credential\SocketCredentials;
 use Qonsillium\Exceptions\ServiceNotFound;
 
@@ -17,10 +13,6 @@ class ServicesHelper
      * @var array 
      */ 
     protected array $container = [
-        'client_socket' => Client::class,
-        'server_socket' => Server::class,
-        'socket_layer' => Socket::class,
-        'socket_endpoint' => SocketEndpoint::class,
         'socket_credentials' => SocketCredentials::class
     ];
 
