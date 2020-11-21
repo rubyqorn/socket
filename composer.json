@@ -1,12 +1,14 @@
 {
     "name": "rubyqorn/socket",
     "description": "Socket layer over PHP socket api",
+    "keywords": ["socket", "stream", "datagram", "client", "server", "ipv6", "tcp", "udp", "icmp", "unix", "udg"],
+    "homepage": "https://github.com/rubyqorn/socket.git",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
             "name": "Anton Hideger",
-            "email": "rubyqorn@example.com"
+            "email": "antonhideger1337@gmail.com"
         }
     ],
     "autoload": {
@@ -14,7 +16,11 @@
             "Qonsillium\\": "src/"
         }
     },
-    "require": {
+    "require-dev": {
         "phpunit/phpunit": "^9.3"
+    },
+    "require": {
+        "php": ">=5.3",
+        "ext-sockets": "*"
     }
 }
