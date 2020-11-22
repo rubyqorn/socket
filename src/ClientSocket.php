@@ -9,6 +9,11 @@ class ClientSocket extends AbstractSocket
         
     }
 
+    public function connect()
+    {
+        
+    }
+
     public function read()
     {
         

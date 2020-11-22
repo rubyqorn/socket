@@ -2,7 +2,7 @@
 
 namespace Qonsillium;
 
-class SocketWriter implements Actionable
+class SocketWriter extends AbstractSocketAction
 {
     private $socket;
 
@@ -30,6 +30,10 @@ class SocketWriter implements Actionable
 
     public function make()
     {
-        
+        return socket_write(
+            $this->getSocket(), 
+            $this->getMessage(), 
+            strlen($this->getMessage())
+        );
     }
 }

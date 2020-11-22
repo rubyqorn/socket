@@ -2,23 +2,14 @@
 
 namespace Qonsillium;
 
-class SocketCreator implements Actionable
+class SocketCreator extends AbstractSocketAction
 {
-    protected string $host;
-
-    protected int $port;
-
     private $createdSocket;
-
-    public function __construct(string $host, int $port)
-    {
-        $this->host = $host;
-        $this->port = $port;
-    }
 
     public function make()
     {
-        
+        $this->createdSocket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+        return $this;
     }
 
     public function getCreatedSocket()

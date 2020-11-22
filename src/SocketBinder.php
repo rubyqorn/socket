@@ -2,7 +2,7 @@
 
 namespace Qonsillium;
 
-class SocketBinder implements Actionable
+class SocketBinder extends AbstractSocketAction
 {
     private $socket;
 
@@ -28,6 +28,6 @@ class SocketBinder implements Actionable
 
     public function make()
     {
-
+        return socket_bind($this->getSocket(), $this->host, $this->port);
     }
 }
