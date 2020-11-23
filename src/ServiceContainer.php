@@ -3,53 +3,20 @@
 namespace Qonsillium;
 
 use Qonsillium\Credential\SocketCredentials;
+use Qonsillium\Parsers\ConfigParsersFactory;
 
-class ServiceContainer
+abstract class ServiceContainer
 {
     /**
-     * @var \Qonsillium\ServicesHelper 
+     * Socket services container
+     * @var array 
      */ 
-    private ?ServicesHelper $helper;
-
-    /**
-     * Initialize ServiceContainer constructor
-     * method
-     * @return void 
-     */ 
-    public function __construct()
-    {
-        $this->helper = new ServicesHelper();
-    }
-
-    /**
-     * Validate service name existence in container
-     * @param string $serviceName
-     * @return string 
-     * @throws \Qonsillium\Exceptions\ServiceNotFound 
-     */ 
-    private function validateServiceExistence(string $serviceName)
-    {
-        return $this->helper->validateService($serviceName);
-    }
-
-    /**
-     * Validate availablility of SocketCredentials layer
-     * and return instance of this class
-     * @return \Qonsillium\SocketCredentials 
-     */ 
-    public function socketCredentialsHandler(): SocketCredentials
-    {
-        $service = $this->validateServiceExistence('socket_credential');
-
-        if (!$service) {
-            return false;
-        }
-
-        return new $service();
-    }
-
-    public function bootstrap()
-    {
-        //
-    }
+    protected array $container = [
+        'socket_credentials' => SocketCredentials::class,
+        'client_socket' => ClientSocket::class,
+        'server_socket' => ServerSocket::class,
+        'config_parser_factory' => ConfigParsersFactory::class,
+        'socket_actions_factory' => ActionFactory::class,
+        'socket_facade' => SocketFacade::class,
+    ];
 }
