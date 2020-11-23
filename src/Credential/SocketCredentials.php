@@ -5,19 +5,6 @@ namespace Qonsillium\Credential;
 class SocketCredentials implements ICredential
 {
     /**
-     * Host name where will
-     * be connected 
-     * @var string 
-     */ 
-    private string $host;
-
-    /**
-     * Port for host
-     * @var string 
-     */ 
-    private string $port;
-
-    /**
      * Set credentials for socket connection
      * @param string $name 
      * @param string $value 
