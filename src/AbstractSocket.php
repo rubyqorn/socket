@@ -6,18 +6,14 @@ use Qonsillium\Credential\SocketCredentials;
 
 abstract class AbstractSocket
 {
-    protected ?SocketCredentials $credentials = null;
+    protected ?SocketFacade $facade = null;
 
-    public function __construct(SocketCredentials $credentials)
+    public function __construct(SocketFacade $facade)
     {
-        $this->credentials = $credentials;
+        $this->facade = $facade;
     }
 
-    abstract public function create();
-
-    abstract public function read();
-
-    abstract public function write();
+    abstract public function send(string $message);
 
     abstract public function close();
 
