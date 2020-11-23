@@ -1,5 +1,5 @@
 {
-    "name": "rubyqorn/socket",
+    "name": "qonsillium/socket",
     "description": "Socket layer over PHP socket api",
     "keywords": ["socket", "stream", "datagram", "client", "server", "ipv6", "tcp", "udp", "icmp", "unix", "udg"],
     "homepage": "https://github.com/rubyqorn/socket.git",
