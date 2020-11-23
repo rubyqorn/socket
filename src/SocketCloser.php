@@ -2,7 +2,7 @@
 
 namespace Qonsillium;
 
-class SocketCloser implements Actionable
+class SocketCloser extends AbstractSocketAction
 {
     private $socket;
 
@@ -18,6 +18,6 @@ class SocketCloser implements Actionable
 
     public function make()
     {
-        
+        return socket_close($this->getSocket());
     }
 }

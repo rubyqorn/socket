@@ -4,33 +4,19 @@ namespace Qonsillium;
 
 class ServerSocket extends AbstractSocket
 {
-    public function create()
+    public function send(string $message)
     {
-        
-    }
+        $sendedMessage = $this->facade->sendFromServer($message);
 
-    public function bind()
-    {
+        if (!$sendedMessage) {
+            return false;
+        }
 
-    }
-
-    public function listen()
-    {
-        
-    }
-
-    public function read()
-    {
-        
-    }
-
-    public function write()
-    {
-        
+        return $sendedMessage->getMessage();
     }
 
     public function close()
     {
-        
+        return $this->facade->closeSocket();
     }
 }

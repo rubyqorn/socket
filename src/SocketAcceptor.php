@@ -2,7 +2,7 @@
 
 namespace Qonsillium;
 
-class SocketAcceptor implements Actionable
+class SocketAcceptor extends AbstractSocketAction
 {
     private $acceptedSocket;
 
@@ -18,6 +18,6 @@ class SocketAcceptor implements Actionable
 
     public function make()
     {
-        
+        return socket_accept($this->getAcceptedSocket());
     }
 }

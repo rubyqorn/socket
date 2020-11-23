@@ -2,7 +2,7 @@
 
 namespace Qonsillium;
 
-class SocketConnector implements Actionable
+class SocketConnector extends AbstractSocketAction
 {
     private $socket;
 
@@ -28,7 +28,6 @@ class SocketConnector implements Actionable
 
     public function make()
     {
-        
+        return socket_connect($this->getConnectedSocket(), $this->host, $this->port);
     }
-
 }

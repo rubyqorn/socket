@@ -2,7 +2,7 @@
 
 namespace Qonsillium;
 
-class SocketReader implements Actionable
+class SocketReader extends AbstractSocketAction
 {
     private $socket;
 
@@ -25,6 +25,10 @@ class SocketReader implements Actionable
 
     public function make()
     {
-        
+        while(socket_recv($this->getSocket(), $buffer, 2048, 0)) {
+            $this->message .= $buffer;
+        }
+
+        return $this;
     }
 }

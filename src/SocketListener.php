@@ -2,7 +2,7 @@
 
 namespace Qonsillium;
 
-class SocketListener implements Actionable
+class SocketListener extends AbstractSocketAction
 {
     private $socket;
 
@@ -30,6 +30,6 @@ class SocketListener implements Actionable
 
     public function make()
     {
-        
+        return socket_listen($this->getListenedSocket(), $this->getBacklog());
     }
 }
