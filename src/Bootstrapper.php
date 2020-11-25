@@ -4,6 +4,7 @@ namespace Qonsillium;
 
 use Qonsillium\Parsers\ConfigParsersFactory;
 use Qonsillium\Credential\SocketCredentials;
+use Qonsillium\Exceptions\ConfigSettingDoesntExists;
 
 class Bootstrapper
 {
@@ -55,17 +56,69 @@ class Bootstrapper
     /**
      * Set socket domain, type, protocol, host and port
      * in SocketCredentials instance
+     * @throws \Qonsillium\Exceptions\ConfigSettingDoesntExists
      * @return \Qonsillium\Credential\SocketCredentials 
      */ 
-    protected function setCredentials()
+    public function setCredentials()
     {
         $credentials = $this->getCredentialsHandler();
-        $credentials->setCredential('domain', $this->settings['settings']['domain']);
-        $credentials->setCredential('type', $this->settings['settings']['type']);
-        $credentials->setCredential('protocol', $this->settings['settings']['protocol']);
+        $domain = $this->getConstValue('domain', $this->settings['settings']['domain']);
+        
+        if (!$domain) {
+            throw new ConfigSettingDoesntExists('Domain setting doesn\'t exists');
+        }
+
+        $credentials->setCredential('domain', $domain);
+        $type = $this->getConstValue('type', $this->settings['settings']['type']);
+
+        if (!$type) {
+            throw new ConfigSettingDoesntExists('Type setting doesn\'t exists');
+        }
+
+        $credentials->setCredential('type', $type);
+        $protocol = $this->getConstValue('protocol', $this->settings['settings']['protocol']);
+
+        if (!$protocol) {
+            throw new ConfigSettingDoesntExists('Protocol setting doesn\'t exists');
+        }
+
+        $credentials->setCredential('protocol', $protocol);
         $credentials->setCredential('host', $this->settings['settings']['host']);
         $credentials->setCredential('port', $this->settings['settings']['port']);
         return $credentials;
+    }
+
+    /**
+     * Get setting value from from config file and match
+     * with constants locator constant and finally return 
+     * integer value about this const
+     * @param string $setting 
+     * @param string $const
+     * @return int|bool  
+     */ 
+    protected function getConstValue(string $setting, string $const)
+    {
+        if (!isset($this->getSocketConstLocator()::MODIFIERS[$setting][$const])) {
+            return false;
+        }
+
+        return $this->getSocketConstLocator()::MODIFIERS[$setting][$const];
+    }
+
+    /**
+     * Returns SocketConstLocator which contain
+     * all socket settings constants. Usually
+     * used when need to get socket const integer
+     * value.
+     * 
+     * Example:
+     * $this->getSocketConstLocator()::MODIFIERS
+     * 
+     * @return string 
+     */ 
+    protected function getSocketConstLocator()
+    {
+        return $this->services->getFromList('socket_constants');
     }
 
     /**
