@@ -23,6 +23,33 @@ class ActionFactory
     }
 
     /**
+     * Returns socket domain setting from config file
+     * @return string 
+     */ 
+    private function getDomain()
+    {
+        return $this->credentials->getCredential('domain');
+    }
+
+    /**
+     * Returns socket type setting from config file
+     * @return string 
+     */ 
+    private function getType()
+    {
+        return $this->credentials->getCredential('type');
+    }
+
+    /**
+     * Returns socket protocol setting from config file
+     * @return string 
+     */ 
+    private function getProtocol()
+    {
+        return $this->credentials->getCredential('protocol');
+    }
+
+    /**
      * Return setted host name from 
      * credentials handler
      * @return string 
@@ -47,7 +74,7 @@ class ActionFactory
      */ 
     public function getCreator(): SocketCreator
     {
-        return new SocketCreator($this->getHost(), $this->getPort());
+        return new SocketCreator($this->getDomain(), $this->getType(), $this->getProtocol());
     }
 
     /**

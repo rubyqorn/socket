@@ -32,7 +32,7 @@ class QonsilliumSocket
      * Return ClientSocket handler
      * @return \Qonsillium\ClientSocket  
      */ 
-    public function getClientSocket(): ClientSocket
+    protected function getClientSocket(): ClientSocket
     {
         return $this->bootstrapper->getClientSocket();
     }
@@ -41,8 +41,44 @@ class QonsilliumSocket
      * Return ServerSocket handler
      * @return \Qonsillium\ServerSocket  
      */ 
-    public function getServerSocket(): ServerSocket
+    protected function getServerSocket(): ServerSocket
     {
         return $this->bootstrapper->getServerSocket();
+    }
+
+    /**
+     * Run client socket and handle user
+     * setted callback function.
+     * @param callback $handler
+     * 
+     * Example:
+     * $socket = QonsilliumSocket('config.yml');
+     * $socket->runClient(function(ClientSocket $client) {
+     *    $client->send('Hello from client');
+     * })
+     * 
+     * @return void
+     */ 
+    public function runClient($handler)
+    {
+        call_user_func($handler($this->getClientSocket()));
+    }
+
+    /**
+     * Run server socket and handle user
+     * setted callback function.
+     * @param callback $handler
+     * 
+     * Example:
+     * $socket = QonsilliumSocket('config.yml');
+     * $socket->runClient(function(ServerSocket $server) {
+     *    $server->send('Hello from server');
+     * })
+     * 
+     * @return void
+     */
+    public function runServer($handler)
+    {
+        call_user_func($handler($this->getServerSocket()));
     }
 }

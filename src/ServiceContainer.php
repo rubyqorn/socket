@@ -18,5 +18,6 @@ abstract class ServiceContainer
         'config_parser_factory' => ConfigParsersFactory::class,
         'socket_actions_factory' => ActionFactory::class,
         'socket_facade' => SocketFacade::class,
+        'socket_constants' => SocketConstantsLocator::class
     ];
 }
