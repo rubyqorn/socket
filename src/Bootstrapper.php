@@ -62,27 +62,16 @@ class Bootstrapper
     public function setCredentials()
     {
         $credentials = $this->getCredentialsHandler();
+
         $domain = $this->getConstValue('domain', $this->settings['settings']['domain']);
-        
-        if (!$domain) {
-            throw new ConfigSettingDoesntExists('Domain setting doesn\'t exists');
-        }
-
         $credentials->setCredential('domain', $domain);
+        
         $type = $this->getConstValue('type', $this->settings['settings']['type']);
-
-        if (!$type) {
-            throw new ConfigSettingDoesntExists('Type setting doesn\'t exists');
-        }
-
         $credentials->setCredential('type', $type);
+        
         $protocol = $this->getConstValue('protocol', $this->settings['settings']['protocol']);
-
-        if (!$protocol) {
-            throw new ConfigSettingDoesntExists('Protocol setting doesn\'t exists');
-        }
-
         $credentials->setCredential('protocol', $protocol);
+        
         $credentials->setCredential('host', $this->settings['settings']['host']);
         $credentials->setCredential('port', $this->settings['settings']['port']);
         return $credentials;
@@ -94,15 +83,18 @@ class Bootstrapper
      * integer value about this const
      * @param string $setting 
      * @param string $const
-     * @return int|bool  
+     * @throws \Qonsillium\Exceptions\ConfigSettingDoesntExists
+     * @return int 
      */ 
     protected function getConstValue(string $setting, string $const)
     {
-        if (!isset($this->getSocketConstLocator()::MODIFIERS[$setting][$const])) {
-            return false;
+        if (!$this->getSocketConstLocator()::hasConst($setting, $const)) {
+            throw new ConfigSettingDoesntExists(
+                "Setting with type: {$setting} and const name: {$const} doesn't exists"
+            );
         }
 
-        return $this->getSocketConstLocator()::MODIFIERS[$setting][$const];
+        return $this->getSocketConstLocator()::getConstValue($setting, $const);
     }
 
     /**
