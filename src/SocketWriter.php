@@ -2,6 +2,8 @@
 
 namespace Qonsillium;
 
+use \Socket;
+
 class SocketWriter extends AbstractSocketAction
 {
     /**
@@ -21,7 +23,7 @@ class SocketWriter extends AbstractSocketAction
      * @param resource $socket 
      * @return void 
      */ 
-    public function setSocket($socket)
+    public function setSocket(Socket $socket)
     {
         $this->socket = $socket;
     }
@@ -29,7 +31,7 @@ class SocketWriter extends AbstractSocketAction
     /**
      * @return resource 
      */ 
-    public function getSocket()
+    public function getSocket(): Socket
     {
         return $this->socket;
     }

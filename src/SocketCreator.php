@@ -2,12 +2,14 @@
 
 namespace Qonsillium;
 
+use \Socket;
+
 class SocketCreator extends AbstractSocketAction
 {
     /**
      * Socket which was created by
      * socket_create
-     * @var resource
+     * @var \Socket
      */ 
     private $createdSocket;
 
@@ -60,9 +62,9 @@ class SocketCreator extends AbstractSocketAction
     }
 
     /**
-     * @return resource 
+     * @return \Socket 
      */ 
-    public function getCreatedSocket()
+    public function getCreatedSocket(): Socket
     {
         return $this->createdSocket;
     }

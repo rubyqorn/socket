@@ -2,11 +2,13 @@
 
 namespace Qonsillium;
 
+use \Socket;
+
 class SocketBinder extends AbstractSocketAction
 {
     /**
      * Created socket connection
-     * @var resource 
+     * @var \Socket 
      */ 
     private $socket;
 
@@ -38,18 +40,18 @@ class SocketBinder extends AbstractSocketAction
     }
 
     /**
-     * @param resource $socket 
+     * @param \Socket $socket 
      * @return void 
      */ 
-    public function setSocket($socket)
+    public function setSocket(Socket $socket)
     {
         $this->socket = $socket;
     }
 
     /**
-     * @return resource 
+     * @return \Socket 
      */ 
-    public function getSocket()
+    public function getSocket(): Socket
     {
         return $this->socket;
     }
