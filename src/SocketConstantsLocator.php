@@ -22,4 +22,30 @@ class SocketConstantsLocator
             'SOL_UDP' => 17
         ]
     ];
+
+    /**
+     * Get integer value of socket constant
+     * @param string $type 
+     * @param string $const 
+     * @return int
+     */ 
+    public static function getConstValue(string $type, string $const)
+    {
+        return self::MODIFIERS[$type][$const];
+    }
+
+    /**
+     * Validate socket constant existence in list 
+     * @param string $type 
+     * @param string $const 
+     * @return bool 
+     */ 
+    public static function hasConst(string $type, string $const): bool
+    {
+        if (!isset(self::MODIFIERS[$type], self::MODIFIERS[$type][$const])) {
+            return false;
+        }
+
+        return true;
+    }
 }

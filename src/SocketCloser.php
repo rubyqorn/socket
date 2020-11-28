@@ -2,11 +2,13 @@
 
 namespace Qonsillium;
 
+use \Socket;
+
 class SocketCloser extends AbstractSocketAction
 {
     /**
      * Accepted or created socket
-     * @var resource  
+     * @var \Socket  
      */ 
     private $socket;
 
@@ -14,7 +16,7 @@ class SocketCloser extends AbstractSocketAction
      * @param resource $socket 
      * @return void 
      */ 
-    public function setSocket($socket)
+    public function setSocket(Socket $socket)
     {
         $this->socket = $socket;
     }
@@ -22,7 +24,7 @@ class SocketCloser extends AbstractSocketAction
     /**
      * @return resource 
      */
-    public function getSocket()
+    public function getSocket(): Socket
     {
         return $this->socket;
     }

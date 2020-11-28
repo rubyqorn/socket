@@ -2,25 +2,27 @@
 
 namespace Qonsillium;
 
+use \Socket;
+
 class SocketAcceptor extends AbstractSocketAction
 {
     /**
      * Accepted socket connection
-     * @var resource 
+     * @var \Socket 
      */ 
     private $acceptedSocket;
 
     /**
-     * @param resource $socket
+     * @param \Socket $socket
      * @return void 
      */ 
-    public function setAcceptSocket($socket)
+    public function setAcceptSocket(Socket $socket)
     {
         $this->acceptedSocket = $socket;
     }
 
     /**
-     * @return resource 
+     * @return \Socket 
      */ 
     public function getAcceptedSocket()
     {

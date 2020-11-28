@@ -44,7 +44,7 @@ class SocketFacade
      */ 
     protected function createSocket()
     {
-        $socket = $this->factory->getCreator()->make();
+        $socket = $this->factory->getCreator()();
 
         if(!$socket) {
             return false;
@@ -63,7 +63,7 @@ class SocketFacade
     {
         $binder = $this->factory->getBinder();
         $binder->setSocket($socket);
-        $bindAction = $binder->make();
+        $bindAction = $binder();
 
         if (!$bindAction) {
             return false; 
@@ -82,7 +82,7 @@ class SocketFacade
         $listener = $this->factory->getListener();
         $listener->setCreatedSocket($socket);
         $listener->setBacklog(1);
-        $listenAction = $listener->make();
+        $listenAction = $listener();
 
         if (!$listenAction) {
             return false;
@@ -100,7 +100,7 @@ class SocketFacade
     {
         $acceptor = $this->factory->getAcceptor();
         $acceptor->setAcceptSocket($socket);
-        $acceptAction = $acceptor->make();
+        $acceptAction = $acceptor();
 
         if (!$acceptAction) {
             return false;
@@ -118,7 +118,7 @@ class SocketFacade
     {
         $connector = $this->factory->getConnector();
         $connector->setCreatedSocket($socket);
-        $connectionAction = $connector->make();
+        $connectionAction = $connector();
 
         if (!$connectionAction) {
             return false;
@@ -136,7 +136,7 @@ class SocketFacade
     {
         $reader = $this->factory->getReader();
         $reader->setSocket($socket);
-        $readAction = $reader->make();
+        $readAction = $reader();
 
         if (!$readAction) {
             return false;
@@ -156,7 +156,7 @@ class SocketFacade
         $writer = $this->factory->getWriter();
         $writer->setSocket($socket);
         $writer->setMessage($message);
-        $writeAction = $writer->make();
+        $writeAction = $writer();
 
         if (!$writeAction) {
             return false;
@@ -178,7 +178,7 @@ class SocketFacade
 
         $closer = $this->factory->getCloser();
         $closer->setSocket($this->createdSocket);
-        return $closer->make();
+        return $closer();
     }
 
     /**

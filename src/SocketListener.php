@@ -2,6 +2,8 @@
 
 namespace Qonsillium;
 
+use \Socket;
+
 class SocketListener extends AbstractSocketAction
 {
     /**
@@ -17,18 +19,18 @@ class SocketListener extends AbstractSocketAction
     private int $backlog;
 
     /**
-     * @param resource $socket 
+     * @param \Socket $socket 
      * @return void 
      */ 
-    public function setCreatedSocket($socket)
+    public function setCreatedSocket(Socket $socket)
     {
         $this->socket = $socket;
     }
 
     /**
-     * @return resource 
+     * @return \Socket 
      */ 
-    public function getListenedSocket()
+    public function getListenedSocket(): Socket
     {
         return $this->socket;
     }
