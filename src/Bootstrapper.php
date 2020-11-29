@@ -5,6 +5,8 @@ namespace Qonsillium;
 use Qonsillium\Parsers\ConfigParsersFactory;
 use Qonsillium\Credential\SocketCredentials;
 use Qonsillium\Exceptions\ConfigSettingDoesntExists;
+use Qonsillium\Types\TypeConfiguration;
+use Qonsillium\Types\SocketTypeFactory;
 
 class Bootstrapper
 {
@@ -21,6 +23,8 @@ class Bootstrapper
      * @var array 
      */ 
     protected array $settings;
+
+    protected ?TypeConfiguration $configuration;
 
     /**
      * @var \Qonsillium\Credential\SocketCredentials 
@@ -40,6 +44,7 @@ class Bootstrapper
         $this->configFile = $configFile;
         $this->services = new ServiceProvider();
         $this->settings = $this->parseConfigFile();
+        $this->configuration = $this->configureSettingsFromFile();
         $this->credentials = $this->setCredentials();
     }
 
@@ -54,26 +59,72 @@ class Bootstrapper
     }
 
     /**
-     * Set socket domain, type, protocol, host and port
-     * in SocketCredentials instance
+     * Set socket domain, type, protocol, host and port,
+     * backlog, read length and backlog, unix socket file
+     * and return a SocketCredentials instance. 
      * @throws \Qonsillium\Exceptions\ConfigSettingDoesntExists
      * @return \Qonsillium\Credential\SocketCredentials 
      */ 
     public function setCredentials()
     {
         $credentials = $this->getCredentialsHandler();
+        $socketTypeFactory = $this->getSocketTypeFactory();
+        $socketType = $socketTypeFactory->getSocket($this->settings['settings']['socket_type']);
+        
 
-        $domain = $this->getConstValue('domain', $this->settings['settings']['domain']);
-        $credentials->setCredential('domain', $domain);
+        $credentials->setCredential(
+            'domain', 
+            $this->getConstValue('domain', $socketType->get('domain'))
+        );
+
+        $credentials->setCredential(
+            'type',
+            $this->getConstValue('type', $socketType->get('type'))
+        );
         
-        $type = $this->getConstValue('type', $this->settings['settings']['type']);
-        $credentials->setCredential('type', $type);
+        $credentials->setCredential(
+            'protocol', 
+            $this->getConstValue('protocol', $socketType->get('protocol'))
+        );
+
+        $credentials->setCredential(
+            'backlog',
+            $socketType->get('backlog')
+        );
+
+        $credentials->setCredential(
+            'read_length',
+            $socketType->get('read_length')
+        );
+
+        $credentials->setCredential(
+            'read_flag',
+            $this->getConstValue('read_flags', $socketType->get('read_flag'))
+        );
+
+        // We have two types of sockets it's TCP or Unix, so also
+        // we have two handlers which contain this settings
+        // TCP handler contains host and port and Unix handler
+        // socket file
+        if ($socketType->validate('socket_file')) {
+            $credentials->setCredential(
+                'socket_file',
+                $socketType->get('socket_file')
+            );
+
+            return $credentials;
+        }
         
-        $protocol = $this->getConstValue('protocol', $this->settings['settings']['protocol']);
-        $credentials->setCredential('protocol', $protocol);
+        $credentials->setCredential(
+            'host', 
+            $socketType->get('host')
+        );
         
-        $credentials->setCredential('host', $this->settings['settings']['host']);
-        $credentials->setCredential('port', $this->settings['settings']['port']);
+        $credentials->setCredential(
+            'port', 
+            $socketType->get('port')
+        );
+
         return $credentials;
     }
 
@@ -98,6 +149,18 @@ class Bootstrapper
     }
 
     /**
+     * Configure settings from config file by
+     * TypeConfiguration and return this instance
+     * @return \Qonsillium\Types\TypeConfiguration  
+     */ 
+    protected function configureSettingsFromFile(): TypeConfiguration
+    {
+        $configuration = $this->getSocketConfigurator();
+        $configuration->configure();
+        return $configuration;
+    }
+
+    /**
      * Returns SocketConstLocator which contain
      * all socket settings constants. Usually
      * used when need to get socket const integer
@@ -111,6 +174,26 @@ class Bootstrapper
     protected function getSocketConstLocator()
     {
         return $this->services->getFromList('socket_constants');
+    }
+
+    /**
+     * Returns TypeConfiguration instance
+     * @return \Qonsillium\Types\TypeConfiguration 
+     */ 
+    public function getSocketConfigurator(): TypeConfiguration
+    {
+        $configuration = $this->services->getFromList('socket_configuration');
+        return new $configuration($this->settings['settings']);
+    }
+
+    /**
+     * Returns SocketTypeFactory instance
+     * @return \Qonsillium\Types\SocketTypeFactory 
+     */ 
+    public function getSocketTypeFactory(): SocketTypeFactory
+    {
+        $factory = $this->services->getFromList('socket_type_factory');
+        return new $factory($this->configuration);
     }
 
     /**

@@ -17,7 +17,7 @@ class SocketBinder extends AbstractSocketAction
      * binded 
      * @var string 
      */ 
-    private string $host;
+    private string $address;
 
     /**
      * Socket port which will be
@@ -33,9 +33,9 @@ class SocketBinder extends AbstractSocketAction
      * @param int $port 
      * @return void
      */ 
-    public function __construct(string $host, int $port)
+    public function __construct(string $address, int $port = 0)
     {
-        $this->host = $host;
+        $this->address = $address;
         $this->port = $port;
     }
 
@@ -63,6 +63,6 @@ class SocketBinder extends AbstractSocketAction
      */ 
     public function make()
     {
-        return socket_bind($this->getSocket(), $this->host, $this->port);
+        return socket_bind($this->getSocket(), $this->address, $this->port);    
     }
 }

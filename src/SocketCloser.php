@@ -13,7 +13,7 @@ class SocketCloser extends AbstractSocketAction
     private $socket;
 
     /**
-     * @param resource $socket 
+     * @param \Socket $socket 
      * @return void 
      */ 
     public function setSocket(Socket $socket)
@@ -22,7 +22,7 @@ class SocketCloser extends AbstractSocketAction
     }
 
     /**
-     * @return resource 
+     * @return \Socket 
      */
     public function getSocket(): Socket
     {

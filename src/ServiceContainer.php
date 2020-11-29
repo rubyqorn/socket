@@ -4,6 +4,8 @@ namespace Qonsillium;
 
 use Qonsillium\Credential\SocketCredentials;
 use Qonsillium\Parsers\ConfigParsersFactory;
+use Qonsillium\Types\TypeConfiguration;
+use Qonsillium\Types\SocketTypeFactory;
 
 abstract class ServiceContainer
 {
@@ -18,6 +20,8 @@ abstract class ServiceContainer
         'config_parser_factory' => ConfigParsersFactory::class,
         'socket_actions_factory' => ActionFactory::class,
         'socket_facade' => SocketFacade::class,
-        'socket_constants' => SocketConstantsLocator::class
+        'socket_constants' => SocketConstantsLocator::class,
+        'socket_configuration' => TypeConfiguration::class,
+        'socket_type_factory' => SocketTypeFactory::class
     ];
 }
