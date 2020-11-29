@@ -12,6 +12,7 @@ use Qonsillium\Exceptions\ {
     FailedBindSocket,
     FailedReadSocket
 };
+use \Socket;
 
 class SocketFacade
 {
@@ -22,7 +23,7 @@ class SocketFacade
 
     /**
      * Created socket by socket_create
-     * @var resource 
+     * @var \Socket 
      */ 
     private $createdSocket;
 
@@ -56,7 +57,7 @@ class SocketFacade
 
     /**
      * Bind socket host and port
-     * @param resource $socket 
+     * @param \Socket $socket 
      * @return bool 
      */ 
     protected function bindSocket($socket)
@@ -74,7 +75,7 @@ class SocketFacade
 
     /**
      * Listen socket connections
-     * @param resource $socket 
+     * @param \Socket $socket 
      * @return bool 
      */ 
     protected function listenSocket($socket)
@@ -93,7 +94,7 @@ class SocketFacade
 
     /**
      * Accept socket connections
-     * @param resource $socket 
+     * @param \Socket $socket 
      * @return bool 
      */ 
     protected function acceptSocket($socket)
@@ -111,7 +112,7 @@ class SocketFacade
 
     /**
      * Connect to created socket 
-     * @param resource $socket 
+     * @param \Socket $socket 
      * @return bool 
      */ 
     protected function connectSocket($socket)
@@ -129,7 +130,7 @@ class SocketFacade
 
     /**
      * Read messages from client or server sockets
-     * @param resource $socket 
+     * @param \Socket $socket 
      * @return bool|\Qonsillium\SocketReader 
      */ 
     protected function readSocket($socket)
@@ -147,7 +148,7 @@ class SocketFacade
 
     /**
      * Write messages on client or server sockets
-     * @param resource $socket 
+     * @param \Socket $socket 
      * @param string $message 
      * @return bool|int 
      */ 

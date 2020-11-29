@@ -19,7 +19,14 @@ class SocketConstantsLocator
         ],
         'protocol' => [
             'SOL_TCP' => 6,
-            'SOL_UDP' => 17
+            'SOL_UDP' => 17,
+            '0' => 0
+        ],
+        'read_flags' => [
+            'MSG_OOB' => 1,
+            'MSG_PEEK' => 2,
+            'MSG_WAITALL' => 256,
+            'MSG_DONTWAIT' => 64
         ]
     ];
 

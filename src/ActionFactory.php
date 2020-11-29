@@ -50,12 +50,16 @@ class ActionFactory
     }
 
     /**
-     * Return setted host name from 
+     * Return setted host or socket file name from 
      * credentials handler
      * @return string 
      */ 
-    private function getHost()
+    private function getAddress()
     {
+        if ($this->credentials->validateExistence('socket_file')) {
+            return $this->credentials->getCredential('socket_file');
+        }
+        
         return $this->credentials->getCredential('host');
     }
 
@@ -66,7 +70,11 @@ class ActionFactory
      */ 
     private function getPort()
     {
-        return $this->credentials->getCredential('port');
+        if ($this->credentials->validateExistence('port')) {
+            return $this->credentials->getCredential('port');
+        }
+
+        return 0;
     }
 
     /**
@@ -90,7 +98,7 @@ class ActionFactory
      */ 
     public function getConnector(): SocketConnector
     {
-        return new SocketConnector($this->getHost(), $this->getPort());
+        return new SocketConnector($this->getAddress(), $this->getPort());
     }
 
     /**
@@ -105,8 +113,8 @@ class ActionFactory
      * @return \Qonsillium\SocketBinder
      */ 
     public function getBinder(): SocketBinder
-    {
-        return new SocketBinder($this->getHost(), $this->getPort());
+    {   
+        return new SocketBinder($this->getAddress(), $this->getPort());
     }
 
     /**

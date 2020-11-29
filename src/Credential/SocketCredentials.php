@@ -24,4 +24,18 @@ class SocketCredentials implements ICredential
     {
         return $this->$name;
     }
+
+    /**
+     * Validate existence of credential
+     * @param string $name 
+     * @return bool 
+     */ 
+    public function validateExistence(string $name)
+    {
+        if (!property_exists($this, $name)) {
+            return false;
+        }
+
+        return true;
+    }
 }
