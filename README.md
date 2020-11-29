@@ -1,3 +1,4 @@
+
 # Socket
 
 ## This is a layer for client and server socket connections.
@@ -128,4 +129,3 @@ $server->runClient(function(ClinetSocket $socket) {
 * MSG_DONTWAIT
 
 ###### For details you can refer to the [PHP](https://php.net) documentation
-
