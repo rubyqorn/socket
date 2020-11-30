@@ -27,7 +27,6 @@ settings:
     backlog: 1
     host: '127.0.0.1'
     port: '8001'
-    backlog: 1
     read_length: 2048
     read_flag: MSG_WAITALL
 ```
@@ -41,7 +40,6 @@ settings:
     protocol: 0
     backlog: 1
     socket_file: socket.sock
-    backlog: 1
     read_length: 2048
     read_flag: MSG_WAITALL
 ```
