@@ -3,6 +3,16 @@
 namespace Qonsillium;
 
 use Qonsillium\Credential\SocketCredentials;
+use Qonsillium\Actions\{
+    SocketAcceptor,
+    SocketBinder,
+    SocketCloser,
+    SocketConnector,
+    SocketCreator,
+    SocketListener,
+    SocketReader,
+    SocketWriter
+};
 
 class ActionFactory
 {
@@ -105,7 +115,7 @@ class ActionFactory
     }
 
     /**
-     * @return \Qonsillium\SocketCreator 
+     * @return \Qonsillium\Actions\SocketCreator 
      */ 
     public function getCreator(): SocketCreator
     {
@@ -113,7 +123,7 @@ class ActionFactory
     }
 
     /**
-     * @return \Qonsillium\SocketAcceptor 
+     * @return \Qonsillium\Actions\SocketAcceptor 
      */ 
     public function getAcceptor(): SocketAcceptor
     {
@@ -121,7 +131,7 @@ class ActionFactory
     }
 
     /**
-     * @return \Qonsillium\SocketConnector 
+     * @return \Qonsillium\Actions\SocketConnector 
      */ 
     public function getConnector(): SocketConnector
     {
@@ -129,7 +139,7 @@ class ActionFactory
     }
 
     /**
-     * @return \Qonsillium\SocketListener 
+     * @return \Qonsillium\Actions\SocketListener 
      */ 
     public function getListener(): SocketListener
     {
@@ -137,7 +147,7 @@ class ActionFactory
     }
 
     /**
-     * @return \Qonsillium\SocketBinder
+     * @return \Qonsillium\Actions\SocketBinder
      */ 
     public function getBinder(): SocketBinder
     {   
@@ -145,7 +155,7 @@ class ActionFactory
     }
 
     /**
-     * @return \Qonsillium\SocketReader 
+     * @return \Qonsillium\Actions\SocketReader 
      */ 
     public function getReader(): SocketReader
     {
@@ -153,7 +163,7 @@ class ActionFactory
     }
 
     /**
-     * @return \Qonsillium\SocketWriter 
+     * @return \Qonsillium\Actions\SocketWriter 
      */ 
     public function getWriter(): SocketWriter
     {
@@ -161,7 +171,7 @@ class ActionFactory
     }
 
     /**
-     * @return \Qonsillium\SocketCloser 
+     * @return \Qonsillium\Actions\SocketCloser 
      */ 
     public function getCloser(): SocketCloser
     {
