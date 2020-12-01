@@ -3,6 +3,16 @@
 namespace Qonsillium;
 
 use Qonsillium\Credential\SocketCredentials;
+use Qonsillium\Actions\{
+    SocketAcceptor,
+    SocketBinder,
+    SocketCloser,
+    SocketConnector,
+    SocketCreator,
+    SocketListener,
+    SocketReader,
+    SocketWriter
+};
 
 class ActionFactory
 {
@@ -78,7 +88,34 @@ class ActionFactory
     }
 
     /**
-     * @return \Qonsillium\SocketCreator 
+     * Returns number of incoming backlogs
+     * @return int 
+     */ 
+    private function getBacklog()
+    {
+        return $this->credentials->getCredential('backlog');
+    }
+
+    /**
+     * Bytes length which will be fetched from remote host
+     * @return int 
+     */ 
+    private function getReadLength()
+    {
+        return $this->credentials->getCredential('read_length');
+    }
+
+    /**
+     * Return flag value responded for reading status
+     * @return int
+     */ 
+    private function getReadFlag()
+    {
+        return $this->credentials->getCredential('read_flag');
+    }
+
+    /**
+     * @return \Qonsillium\Actions\SocketCreator 
      */ 
     public function getCreator(): SocketCreator
     {
@@ -86,7 +123,7 @@ class ActionFactory
     }
 
     /**
-     * @return \Qonsillium\SocketAcceptor 
+     * @return \Qonsillium\Actions\SocketAcceptor 
      */ 
     public function getAcceptor(): SocketAcceptor
     {
@@ -94,7 +131,7 @@ class ActionFactory
     }
 
     /**
-     * @return \Qonsillium\SocketConnector 
+     * @return \Qonsillium\Actions\SocketConnector 
      */ 
     public function getConnector(): SocketConnector
     {
@@ -102,15 +139,15 @@ class ActionFactory
     }
 
     /**
-     * @return \Qonsillium\SocketListener 
+     * @return \Qonsillium\Actions\SocketListener 
      */ 
     public function getListener(): SocketListener
     {
-        return new SocketListener();
+        return new SocketListener($this->getBacklog());
     }
 
     /**
-     * @return \Qonsillium\SocketBinder
+     * @return \Qonsillium\Actions\SocketBinder
      */ 
     public function getBinder(): SocketBinder
     {   
@@ -118,15 +155,15 @@ class ActionFactory
     }
 
     /**
-     * @return \Qonsillium\SocketReader 
+     * @return \Qonsillium\Actions\SocketReader 
      */ 
     public function getReader(): SocketReader
     {
-        return new SocketReader();
+        return new SocketReader($this->getReadLength(), $this->getReadFlag());
     }
 
     /**
-     * @return \Qonsillium\SocketWriter 
+     * @return \Qonsillium\Actions\SocketWriter 
      */ 
     public function getWriter(): SocketWriter
     {
@@ -134,7 +171,7 @@ class ActionFactory
     }
 
     /**
-     * @return \Qonsillium\SocketCloser 
+     * @return \Qonsillium\Actions\SocketCloser 
      */ 
     public function getCloser(): SocketCloser
     {

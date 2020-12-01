@@ -82,7 +82,6 @@ class SocketFacade
     {
         $listener = $this->factory->getListener();
         $listener->setCreatedSocket($socket);
-        $listener->setBacklog(1);
         $listenAction = $listener();
 
         if (!$listenAction) {

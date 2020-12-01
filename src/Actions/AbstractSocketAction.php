@@ -1,6 +1,6 @@
 <?php 
 
-namespace Qonsillium;
+namespace Qonsillium\Actions;
 
 abstract class AbstractSocketAction
 {
