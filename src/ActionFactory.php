@@ -78,6 +78,33 @@ class ActionFactory
     }
 
     /**
+     * Returns number of incoming backlogs
+     * @return int 
+     */ 
+    private function getBacklog()
+    {
+        return $this->credentials->getCredential('backlog');
+    }
+
+    /**
+     * Bytes length which will be fetched from remote host
+     * @return int 
+     */ 
+    private function getReadLength()
+    {
+        return $this->credentials->getCredential('read_length');
+    }
+
+    /**
+     * Return flag value responded for reading status
+     * @return int
+     */ 
+    private function getReadFlag()
+    {
+        return $this->credentials->getCredential('read_flag');
+    }
+
+    /**
      * @return \Qonsillium\SocketCreator 
      */ 
     public function getCreator(): SocketCreator
@@ -106,7 +133,7 @@ class ActionFactory
      */ 
     public function getListener(): SocketListener
     {
-        return new SocketListener();
+        return new SocketListener($this->getBacklog());
     }
 
     /**
@@ -122,7 +149,7 @@ class ActionFactory
      */ 
     public function getReader(): SocketReader
     {
-        return new SocketReader();
+        return new SocketReader($this->getReadLength(), $this->getReadFlag());
     }
 
     /**

@@ -13,10 +13,28 @@ class SocketReader extends AbstractSocketAction
     private $socket;
 
     /**
+     * Bytes length
+     * @var int  
+     */ 
+    private int $length;
+
+    /**
+     * Read status
+     * @var int 
+     */ 
+    private int $flag;
+
+    /**
      * Readed message from socket
      * @var string 
      */ 
     private string $message = '';
+
+    public function __construct(int $length, int $flag = 0)
+    {
+        $this->length = $length;
+        $this->flag = $flag;
+    }
 
     /**
      * @param \Socket $socket
@@ -49,7 +67,7 @@ class SocketReader extends AbstractSocketAction
      */ 
     public function make()
     {
-        while(socket_recv($this->getSocket(), $buffer, 2048, 0)) {
+        while(socket_recv($this->getSocket(), $buffer, $this->length, $this->flag)) {
             $this->message .= $buffer;
         }
 

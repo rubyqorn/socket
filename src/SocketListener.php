@@ -19,6 +19,17 @@ class SocketListener extends AbstractSocketAction
     private int $backlog;
 
     /**
+     * Initiate SocketListener constructor method and 
+     * set backlog paramter
+     * @param int $backlog 
+     * @return void 
+     */ 
+    public function __construct(int $backlog = 1)
+    {
+        $this->backlog = $backlog;
+    }
+
+    /**
      * @param \Socket $socket 
      * @return void 
      */ 
@@ -36,28 +47,11 @@ class SocketListener extends AbstractSocketAction
     }
 
     /**
-     * @param int $backlog
-     * @return void 
-     */ 
-    public function setBacklog(int $backlog)
-    {
-        $this->backlog = $backlog;
-    }
-
-    /**
-     * @return int 
-     */ 
-    public function getBacklog()
-    {
-        return $this->backlog;
-    }
-
-    /**
      * Listen socket connections
      * @return book 
      */ 
     public function make()
     {
-        return socket_listen($this->getListenedSocket(), $this->getBacklog());
+        return socket_listen($this->getListenedSocket(), $this->backlog);
     }
 }

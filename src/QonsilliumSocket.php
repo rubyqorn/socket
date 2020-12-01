@@ -2,6 +2,7 @@
 
 namespace Qonsillium;
 
+use Closure;
 use Qonsillium\Exceptions\ConfigFileDoesntExists;
 
 class QonsilliumSocket
@@ -49,7 +50,7 @@ class QonsilliumSocket
     /**
      * Run client socket and handle user
      * setted callback function.
-     * @param callback $handler
+     * @param \Closure $handler
      * 
      * Example:
      * $socket = QonsilliumSocket('config.yml');
@@ -59,7 +60,7 @@ class QonsilliumSocket
      * 
      * @return void
      */ 
-    public function runClient($handler)
+    public function runClient(Closure $handler)
     {
         call_user_func($handler($this->getClientSocket()));
     }
@@ -67,7 +68,7 @@ class QonsilliumSocket
     /**
      * Run server socket and handle user
      * setted callback function.
-     * @param callback $handler
+     * @param \Closure $handler
      * 
      * Example:
      * $socket = QonsilliumSocket('config.yml');
@@ -77,7 +78,7 @@ class QonsilliumSocket
      * 
      * @return void
      */
-    public function runServer($handler)
+    public function runServer(Closure $handler)
     {
         call_user_func($handler($this->getServerSocket()));
     }
