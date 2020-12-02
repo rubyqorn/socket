@@ -4,11 +4,10 @@ namespace Qonsillium\Actions;
 
 use \Socket;
 
-class SocketCloser extends AbstractSocketAction
+class SocketSelector extends AbstractSocketAction
 {
     /**
-     * Accepted or created socket
-     * @var \Socket  
+     * @var \Socket 
      */ 
     private ?Socket $socket;
 
@@ -20,21 +19,26 @@ class SocketCloser extends AbstractSocketAction
     {
         $this->socket = $socket;
     }
-
+     
     /**
      * @return \Socket 
-     */
-    public function getSocket(): Socket
+     */ 
+    public function getSocket()
     {
         return $this->socket;
     }
 
     /**
-     * Close created or accepted socket connection
-     * @return void 
+     * Runs the select() system call on the given 
+     * arrays of sockets with a specified timeout
+     * @return int
      */ 
     public function make()
     {
-        return socket_close($this->getSocket());
+        $read = [$this->getSocket()];
+        $write = null;
+        $except = null;
+
+        return socket_select($read, $write, $except, 0);
     }
 }

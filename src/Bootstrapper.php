@@ -24,6 +24,9 @@ class Bootstrapper
      */ 
     protected array $settings;
 
+    /**
+     * @var \Qonsillium\Types\TypeConfiguration 
+     */ 
     protected ?TypeConfiguration $configuration;
 
     /**

@@ -11,6 +11,7 @@ use Qonsillium\Actions\{
     SocketCreator,
     SocketListener,
     SocketReader,
+    SocketSelector,
     SocketWriter
 };
 
@@ -152,6 +153,14 @@ class ActionFactory
     public function getBinder(): SocketBinder
     {   
         return new SocketBinder($this->getAddress(), $this->getPort());
+    }
+
+    /**
+     * @return \Qonsillium\Actions\SocketSelector 
+     */ 
+    public function getSelector(): SocketSelector
+    {
+        return new SocketSelector();
     }
 
     /**

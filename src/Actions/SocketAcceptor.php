@@ -10,7 +10,7 @@ class SocketAcceptor extends AbstractSocketAction
      * Accepted socket connection
      * @var \Socket 
      */ 
-    private $acceptedSocket;
+    private ?Socket $acceptedSocket;
 
     /**
      * @param \Socket $socket
@@ -31,7 +31,7 @@ class SocketAcceptor extends AbstractSocketAction
 
     /**
      * Accept socket connection
-     * @return resource 
+     * @return \Socket 
      */ 
     public function make()
     {

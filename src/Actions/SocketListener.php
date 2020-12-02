@@ -8,9 +8,9 @@ class SocketListener extends AbstractSocketAction
 {
     /**
      * Created socket 
-     * @var resource 
+     * @var \Socket 
      */ 
-    private $socket;
+    private ?Socket $socket;
 
     /**
      * Maximum incoming connections

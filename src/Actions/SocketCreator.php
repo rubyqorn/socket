@@ -11,7 +11,7 @@ class SocketCreator extends AbstractSocketAction
      * socket_create
      * @var \Socket
      */ 
-    private $createdSocket;
+    private ?Socket $createdSocket;
 
     /**
      * Protocol family to be used 

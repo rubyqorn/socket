@@ -8,9 +8,9 @@ class SocketConnector extends AbstractSocketAction
 {
     /**
      * Created socket connection
-     * @var resource 
+     * @var \Socket 
      */ 
-    private $socket;
+    private ?Socket $socket;
 
     /**
      * Host name where will

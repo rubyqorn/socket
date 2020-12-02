@@ -41,7 +41,7 @@ class SocketFacade
     /**
      * Create socket. While can create only
      * TCP socket
-     * @return bool|resource 
+     * @return bool|\Socket 
      */ 
     protected function createSocket()
     {
@@ -125,6 +125,20 @@ class SocketFacade
         }
 
         return $connectionAction;
+    }
+
+    /**
+     * Accepts arrays of sockets and waits for them 
+     * to change status
+     * @param \Socket $socket 
+     * @return int 
+     */ 
+    public function selectSocket($socket)
+    {
+        $selector = $this->factory->getSelector();
+        $selector->setSocket($socket);
+
+        return $selector();
     }
 
     /**
@@ -218,10 +232,10 @@ class SocketFacade
             throw new FailedWriteSocket('Failed to write socket');
         }
 
-        $readedSocket = $this->readSocket($accept);
+        $readedSocket = false;
 
-        if (!$readedSocket) {
-            throw new FailedReadSocket('Failed to write socket');
+        while ($this->selectSocket($accept)) {
+            $readedSocket = $this->readSocket($accept);
         }
 
         return $readedSocket;
@@ -251,10 +265,10 @@ class SocketFacade
             throw new FailedWriteSocket('Failed to write socket');
         }
 
-        $readedSocket = $this->readSocket($this->createdSocket);
+        $readedSocket = false;
 
-        if (!$readedSocket) {
-            throw new FailedReadSocket('Failed to read socket');
+        while ($this->selectSocket($this->createdSocket)) {
+            $readedSocket = $this->readSocket($this->createdSocket);
         }
 
         return $readedSocket;

@@ -8,9 +8,9 @@ class SocketWriter extends AbstractSocketAction
 {
     /**
      * Created or accepted socket
-     * @var resource 
+     * @var \Socket 
      */ 
-    private $socket;
+    private ?Socket $socket;
 
     /**
      * Message which will be sent
@@ -20,7 +20,7 @@ class SocketWriter extends AbstractSocketAction
     private string $message;
 
     /**
-     * @param resource $socket 
+     * @param \Socket $socket 
      * @return void 
      */ 
     public function setSocket(Socket $socket)
@@ -29,7 +29,7 @@ class SocketWriter extends AbstractSocketAction
     }
 
     /**
-     * @return resource 
+     * @return \Socket 
      */ 
     public function getSocket(): Socket
     {

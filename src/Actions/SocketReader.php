@@ -10,7 +10,7 @@ class SocketReader extends AbstractSocketAction
      * Created or accepted socket
      * @var \Socket 
      */ 
-    private $socket;
+    private ?Socket $socket;
 
     /**
      * Bytes length
@@ -66,10 +66,9 @@ class SocketReader extends AbstractSocketAction
      * @return \Qonsillium\SocketReader 
      */ 
     public function make()
-    {
-        while(socket_recv($this->getSocket(), $buffer, $this->length, $this->flag)) {
-            $this->message .= $buffer;
-        }
+    {   
+        socket_recv($this->getSocket(), $buffer, $this->length, $this->flag);
+        $this->message .= $buffer;
 
         return $this;
     }

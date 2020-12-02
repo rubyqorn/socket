@@ -10,7 +10,7 @@ class SocketBinder extends AbstractSocketAction
      * Created socket connection
      * @var \Socket 
      */ 
-    private $socket;
+    private ?Socket $socket;
 
     /**
      * Host name which will be
