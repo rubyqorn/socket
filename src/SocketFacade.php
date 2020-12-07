@@ -12,7 +12,6 @@ use Qonsillium\Exceptions\ {
     FailedBindSocket,
     FailedReadSocket
 };
-use \Socket;
 
 class SocketFacade
 {
@@ -22,10 +21,10 @@ class SocketFacade
     private ?ActionFactory $factory = null;
 
     /**
-     * Created socket by socket_create
-     * @var \Socket 
+     * Readed socket content 
+     * @var string 
      */ 
-    private $createdSocket;
+    private string $content = '';
 
     /**
      * Initiate SocketFacade constructor method and
@@ -39,56 +38,14 @@ class SocketFacade
     }
 
     /**
-     * Create socket. While can create only
-     * TCP socket
-     * @return bool|\Socket 
+     * Connect to client or server socket
+     * @param string $connectionType (server|client)
+     * @return resource
      */ 
-    protected function createSocket()
+    public function connectSocket(string $connectionType)
     {
-        $socket = $this->factory->getCreator()();
-
-        if(!$socket) {
-            return false;
-        }
-
-        $this->createdSocket = $socket->getCreatedSocket();
-        return $this->createdSocket;
-    }
-
-    /**
-     * Bind socket host and port
-     * @param \Socket $socket 
-     * @return bool 
-     */ 
-    protected function bindSocket($socket)
-    {
-        $binder = $this->factory->getBinder();
-        $binder->setSocket($socket);
-        $bindAction = $binder();
-
-        if (!$bindAction) {
-            return false; 
-        }
-
-        return $bindAction;
-    }
-
-    /**
-     * Listen socket connections
-     * @param \Socket $socket 
-     * @return bool 
-     */ 
-    protected function listenSocket($socket)
-    {
-        $listener = $this->factory->getListener();
-        $listener->setCreatedSocket($socket);
-        $listenAction = $listener();
-
-        if (!$listenAction) {
-            return false;
-        }
-
-        return $listenAction;
+        $connector = $this->factory->getConnector($connectionType);
+        return $connector()->create();
     }
 
     /**
@@ -99,7 +56,7 @@ class SocketFacade
     protected function acceptSocket($socket)
     {
         $acceptor = $this->factory->getAcceptor();
-        $acceptor->setAcceptSocket($socket);
+        $acceptor->setSocket($socket);
         $acceptAction = $acceptor();
 
         if (!$acceptAction) {
@@ -107,38 +64,6 @@ class SocketFacade
         }
 
         return $acceptAction;
-    }
-
-    /**
-     * Connect to created socket 
-     * @param \Socket $socket 
-     * @return bool 
-     */ 
-    protected function connectSocket($socket)
-    {
-        $connector = $this->factory->getConnector();
-        $connector->setCreatedSocket($socket);
-        $connectionAction = $connector();
-
-        if (!$connectionAction) {
-            return false;
-        }
-
-        return $connectionAction;
-    }
-
-    /**
-     * Accepts arrays of sockets and waits for them 
-     * to change status
-     * @param \Socket $socket 
-     * @return int 
-     */ 
-    public function selectSocket($socket)
-    {
-        $selector = $this->factory->getSelector();
-        $selector->setSocket($socket);
-
-        return $selector();
     }
 
     /**
@@ -184,14 +109,10 @@ class SocketFacade
      * @throws \Qonsillium\Exceptions\FailedCloseSocket
      * @return void 
      */ 
-    public function closeSocket()
+    public function closeSocket($socket)
     {
-        if (!$this->createdSocket) {
-            throw new FailedCloseSocket('Failed close, because doesn\'t exists');
-        }
-
         $closer = $this->factory->getCloser();
-        $closer->setSocket($this->createdSocket);
+        $closer->setSocket($socket);
         return $closer();
     }
 
@@ -200,77 +121,63 @@ class SocketFacade
      * Here we create, bind, listen, accept, read and
      * write socket
      * @param string $message 
-     * @throws \Qonsillium\Exceptions\FailedCreateSocket
-     * @throws \Qonsillium\Exceptions\FailedBindSocket
-     * @throws \Qonsillium\Exceptions\FailedListenSocket
-     * @throws \Qonsillium\Exceptions\FailedAcceptSocket
+     * @throws \Qonsillium\Exceptions\FailedCconnectSocket
      * @throws \Qonsillium\Exceptions\FailedWriteSocket
-     * @throws \Qonsillium\Exceptions\FailedReadSocket 
-     * @return \Qonsillium\SocketReader
+     * @return string
      */ 
     public function sendFromServer(string $message)
     {
-        if (!$this->createSocket()) {
-            throw new FailedCreateSocket('Failed to create socket');
+        $server = $this->connectSocket('server');
+
+        if (!$server) {
+            throw new FailedConnectSocket('Failed to connect server socket');
         }
 
-        if (!$this->bindSocket($this->createdSocket)) {
-            throw new FailedBindSocket('Failed to bind socket');
+        while ($client = $this->acceptSocket($server)) {
+            $written = $this->writeSocket($client, $message);
+
+            if (!$written) {
+                throw new FailedWriteSocket('Failed to write to client socket');
+            }
+
+            $this->content .= $this->readSocket($client)->getMessage();
+            $this->closeSocket($client);
         }
 
-        if (!$this->listenSocket($this->createdSocket)) {
-            throw new FailedListenSocket('Failed to listen socket');
-        }
+        $this->closeSocket($server);
 
-        $accept = $this->acceptSocket($this->createdSocket);
-
-        if (!$accept) {
-            throw new FailedAcceptSocket('Failed accept socket');
-        }
-
-        if (!$this->writeSocket($accept, $message)) {
-            throw new FailedWriteSocket('Failed to write socket');
-        }
-
-        $readedSocket = false;
-
-        while ($this->selectSocket($accept)) {
-            $readedSocket = $this->readSocket($accept);
-        }
-
-        return $readedSocket;
+        return $this->content;
     }
 
     /**
      * This method can be used only with ClientSocket.
      * Here we create, read and write socket
      * @param string $message 
-     * @throws \Qonsillium\Exceptions\FailedCreateSocket
      * @throws \Qonsillium\Exceptions\FailedConnectSocket
      * @throws \Qonsillium\Exceptions\FailedWriteSocket
      * @throws \Qonsillium\Exceptions\FailedReadSocket 
-     * @return \Qonsillium\SocketReader
+     * @return string
      */
     public function sendFromClient(string $message)
     {
-        if (!$this->createSocket()) {
-            throw new FailedCreateSocket('Failed to create socket');
+        $client = $this->connectSocket('client');
+
+        if (!$client) {
+            throw new FailedConnectSocket('Failed to connect client socket');
         }
 
-        if (!$this->connectSocket($this->createdSocket)) {
-            throw new FailedConnectSocket('Failed to connect socket');
+        $written = $this->writeSocket($client, $message);
+
+        if (!$written) {
+            throw new FailedWriteSocket('Failed to write to server socket');
         }
 
-        if (!$this->writeSocket($this->createdSocket, $message)) {
-            throw new FailedWriteSocket('Failed to write socket');
+        while(!feof($client)) {
+            $this->content .= $this->readSocket($client)->getMessage();
         }
 
-        $readedSocket = false;
+        $this->closeSocket($client);
 
-        while ($this->selectSocket($this->createdSocket)) {
-            $readedSocket = $this->readSocket($this->createdSocket);
-        }
-
-        return $readedSocket;
+        return $this->content;
     }
 }

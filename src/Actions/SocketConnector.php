@@ -2,67 +2,40 @@
 
 namespace Qonsillium\Actions;
 
-use \Socket;
+use Qonsillium\Actions\Connections\ConnectionFactory;
 
 class SocketConnector extends AbstractSocketAction
 {
     /**
-     * Created socket connection
-     * @var \Socket 
-     */ 
-    private ?Socket $socket;
-
-    /**
-     * Host name where will
-     * be connected
      * @var string 
      */ 
-    private string $host;
+    private string $address;
 
     /**
-     * Socket port where
-     * will be connected
-     * @var int 
+     * @var string 
      */ 
-    private int $port;
+    private string $type;
 
     /**
-     * Initiate SocketConnector constructor method and 
-     * set socket host and port values 
-     * @param string $host 
-     * @param int $port 
+     * Initiate SocketConnector constructor method
+     * @param string $method
+     * @param string $type
      * @return void 
      */ 
-    public function __construct(string $host, int $port)
+    public function __construct(string $address, string $type)
     {
-        $this->host = $host;
-        $this->port = $port;
+        $this->address = $address;
+        $this->type = $type;
     }
 
     /**
-     * @param \Socket $socket 
-     * @return void 
-     */ 
-    public function setCreatedSocket(Socket $socket)
-    {
-        $this->socket = $socket;
-    }
-
-    /**
-     * @return \Socket 
-     */ 
-    public function getConnectedSocket(): Socket
-    {
-        return $this->socket;
-    }
-
-    /**
-     * Connect to created socket and specific host with
-     * port 
-     * @return bool 
+     * Create client or server socket connection
+     * @return \Qonsillium\Actions\Connections\Connection
      */ 
     public function make()
     {
-        return socket_connect($this->getConnectedSocket(), $this->host, $this->port);
+        $connection = ConnectionFactory::getConnection($this->type);
+        $connection->setAddress($this->address);
+        return $connection;
     }
 }
