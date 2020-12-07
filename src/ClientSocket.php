@@ -18,16 +18,6 @@ class ClientSocket extends AbstractSocket
             return false;
         }
 
-        return $sendedMessage->getMessage();
-    }
-
-    /**
-     * Close socket created socket connection
-     * @throws \Qonsillium\Exceptions\FailedCloseSocket
-     * @return void 
-     */ 
-    public function close()
-    {
-        return $this->facade->closeSocket();
+        return $sendedMessage;
     }
 }
