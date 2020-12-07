@@ -26,21 +26,4 @@ abstract class AbstractSocket
      * @return string|bool 
      */ 
     abstract public function send(string $message);
-
-    /**
-     * Close created socket connection
-     * @throws \Qonsillium\Exceptions\FailedCloseSocket
-     * @return void
-     */ 
-    abstract public function close();
-
-    /**
-     * Destruct AbstractSocket class and 
-     * close socket connection
-     * @return void 
-     */ 
-    public function __destruct()
-    {
-        $this->close();
-    }
 }

@@ -62,7 +62,7 @@ class QonsilliumSocket
      */ 
     public function runClient(Closure $handler)
     {
-        call_user_func($handler($this->getClientSocket()));
+        $handler($this->getClientSocket());
     }
 
     /**
@@ -80,6 +80,6 @@ class QonsilliumSocket
      */
     public function runServer(Closure $handler)
     {
-        call_user_func($handler($this->getServerSocket()));
+        $handler($this->getServerSocket());
     }
 }

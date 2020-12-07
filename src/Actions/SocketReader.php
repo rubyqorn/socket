@@ -2,55 +2,20 @@
 
 namespace Qonsillium\Actions;
 
-use \Socket;
-
 class SocketReader extends AbstractSocketAction
 {
     /**
-     * Created or accepted socket
-     * @var \Socket 
-     */ 
-    private $socket;
-
-    /**
-     * Bytes length
-     * @var int  
-     */ 
-    private int $length;
-
-    /**
-     * Read status
-     * @var int 
-     */ 
-    private int $flag;
-
-    /**
-     * Readed message from socket
      * @var string 
      */ 
-    private string $message = '';
-
-    public function __construct(int $length, int $flag = 0)
-    {
-        $this->length = $length;
-        $this->flag = $flag;
-    }
+    private string $message;
 
     /**
-     * @param \Socket $socket
+     * @param string $message
      * @return void 
      */ 
-    public function setSocket(Socket $socket)
+    public function setMessage(string $message)
     {
-        $this->socket = $socket;
-    }
-
-    /**
-     * @return \Socket 
-     */ 
-    public function getSocket(): Socket
-    {
-        return $this->socket;
+        $this->message = $message;
     }
 
     /**
@@ -62,15 +27,12 @@ class SocketReader extends AbstractSocketAction
     }
 
     /**
-     * Read messages from createdd or accepted sockets
-     * @return \Qonsillium\SocketReader 
+     * Read content from connected socket
+     * @return \Qonsillium\Actions\SocketReader 
      */ 
     public function make()
     {
-        while(socket_recv($this->getSocket(), $buffer, $this->length, $this->flag)) {
-            $this->message .= $buffer;
-        }
-
+        $this->setMessage(fread($this->getSocket(), 2048));
         return $this;
     }
 }

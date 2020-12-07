@@ -5,11 +5,8 @@ namespace Qonsillium;
 use Qonsillium\Credential\SocketCredentials;
 use Qonsillium\Actions\{
     SocketAcceptor,
-    SocketBinder,
     SocketCloser,
     SocketConnector,
-    SocketCreator,
-    SocketListener,
     SocketReader,
     SocketWriter
 };
@@ -33,93 +30,20 @@ class ActionFactory
     }
 
     /**
-     * Returns socket domain setting from config file
+     * Returns socket connection address
      * @return string 
      */ 
-    private function getDomain()
+    public function getAddress()
     {
-        return $this->credentials->getCredential('domain');
-    }
-
-    /**
-     * Returns socket type setting from config file
-     * @return string 
-     */ 
-    private function getType()
-    {
-        return $this->credentials->getCredential('type');
-    }
-
-    /**
-     * Returns socket protocol setting from config file
-     * @return string 
-     */ 
-    private function getProtocol()
-    {
-        return $this->credentials->getCredential('protocol');
-    }
-
-    /**
-     * Return setted host or socket file name from 
-     * credentials handler
-     * @return string 
-     */ 
-    private function getAddress()
-    {
-        if ($this->credentials->validateExistence('socket_file')) {
-            return $this->credentials->getCredential('socket_file');
-        }
-        
         return $this->credentials->getCredential('host');
     }
 
     /**
-     * Return setted socket port from
-     * credentials handler
-     * @return string 
+     * @return \Qonsillium\Actions\SocketConnector 
      */ 
-    private function getPort()
+    public function getConnector(string $type)
     {
-        if ($this->credentials->validateExistence('port')) {
-            return $this->credentials->getCredential('port');
-        }
-
-        return 0;
-    }
-
-    /**
-     * Returns number of incoming backlogs
-     * @return int 
-     */ 
-    private function getBacklog()
-    {
-        return $this->credentials->getCredential('backlog');
-    }
-
-    /**
-     * Bytes length which will be fetched from remote host
-     * @return int 
-     */ 
-    private function getReadLength()
-    {
-        return $this->credentials->getCredential('read_length');
-    }
-
-    /**
-     * Return flag value responded for reading status
-     * @return int
-     */ 
-    private function getReadFlag()
-    {
-        return $this->credentials->getCredential('read_flag');
-    }
-
-    /**
-     * @return \Qonsillium\Actions\SocketCreator 
-     */ 
-    public function getCreator(): SocketCreator
-    {
-        return new SocketCreator($this->getDomain(), $this->getType(), $this->getProtocol());
+        return new SocketConnector($this->getAddress(), $type);
     }
 
     /**
@@ -131,35 +55,11 @@ class ActionFactory
     }
 
     /**
-     * @return \Qonsillium\Actions\SocketConnector 
-     */ 
-    public function getConnector(): SocketConnector
-    {
-        return new SocketConnector($this->getAddress(), $this->getPort());
-    }
-
-    /**
-     * @return \Qonsillium\Actions\SocketListener 
-     */ 
-    public function getListener(): SocketListener
-    {
-        return new SocketListener($this->getBacklog());
-    }
-
-    /**
-     * @return \Qonsillium\Actions\SocketBinder
-     */ 
-    public function getBinder(): SocketBinder
-    {   
-        return new SocketBinder($this->getAddress(), $this->getPort());
-    }
-
-    /**
      * @return \Qonsillium\Actions\SocketReader 
      */ 
     public function getReader(): SocketReader
     {
-        return new SocketReader($this->getReadLength(), $this->getReadFlag());
+        return new SocketReader();
     }
 
     /**

@@ -24,6 +24,9 @@ class Bootstrapper
      */ 
     protected array $settings;
 
+    /**
+     * @var \Qonsillium\Types\TypeConfiguration 
+     */ 
     protected ?TypeConfiguration $configuration;
 
     /**
@@ -71,58 +74,9 @@ class Bootstrapper
         $socketTypeFactory = $this->getSocketTypeFactory();
         $socketType = $socketTypeFactory->getSocket($this->settings['settings']['socket_type']);
         
-
-        $credentials->setCredential(
-            'domain', 
-            $this->getConstValue('domain', $socketType->get('domain'))
-        );
-
-        $credentials->setCredential(
-            'type',
-            $this->getConstValue('type', $socketType->get('type'))
-        );
-        
-        $credentials->setCredential(
-            'protocol', 
-            $this->getConstValue('protocol', $socketType->get('protocol'))
-        );
-
-        $credentials->setCredential(
-            'backlog',
-            $socketType->get('backlog')
-        );
-
-        $credentials->setCredential(
-            'read_length',
-            $socketType->get('read_length')
-        );
-
-        $credentials->setCredential(
-            'read_flag',
-            $this->getConstValue('read_flags', $socketType->get('read_flag'))
-        );
-
-        // We have two types of sockets it's TCP or Unix, so also
-        // we have two handlers which contain this settings
-        // TCP handler contains host and port and Unix handler
-        // socket file
-        if ($socketType->validate('socket_file')) {
-            $credentials->setCredential(
-                'socket_file',
-                $socketType->get('socket_file')
-            );
-
-            return $credentials;
-        }
-        
         $credentials->setCredential(
             'host', 
-            $socketType->get('host')
-        );
-        
-        $credentials->setCredential(
-            'port', 
-            $socketType->get('port')
+            "{$socketType->get('socket_type')}://{$socketType->get('address')}:{$socketType->get('port')}"
         );
 
         return $credentials;
