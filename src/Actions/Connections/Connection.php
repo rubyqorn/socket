@@ -12,9 +12,9 @@ abstract class Connection
 
     /**
      * Socket connection timeout
-     * @var int 
+     * @var int|null 
      */ 
-    protected int $timeout;
+    protected ?int $timeout = null;
 
     /**
      * @param string $address

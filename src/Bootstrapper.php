@@ -74,9 +74,23 @@ class Bootstrapper
         $socketTypeFactory = $this->getSocketTypeFactory();
         $socketType = $socketTypeFactory->getSocket($this->settings['settings']['socket_type']);
         
+        // Set socket host credentials. We have only two types
+        // It's unix and tcp, another will be ignored
+        if ($socketType->get('socket_type') === 'unix') {
+            $credentials->setCredential(
+                'host', 
+                "{$socketType->get('socket_type')}://{$socketType->get('address')}"
+            );
+        } elseif($socketType->get('socket_type') === 'tcp') {
+            $credentials->setCredential(
+                'host', 
+                "{$socketType->get('socket_type')}://{$socketType->get('address')}:{$socketType->get('port')}"
+            );
+        }
+
         $credentials->setCredential(
-            'host', 
-            "{$socketType->get('socket_type')}://{$socketType->get('address')}:{$socketType->get('port')}"
+            'content_length', 
+            $socketType->get('content_length')
         );
 
         return $credentials;

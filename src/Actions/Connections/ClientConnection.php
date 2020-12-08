@@ -13,7 +13,8 @@ class ClientConnection extends Connection
         return stream_socket_client(
             $this->getAddress(),
             $errno,
-            $errstr
+            $errstr,
+            $this->getTimeout() ?? $this->getTimeout()
         );
     }
 }

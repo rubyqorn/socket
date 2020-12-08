@@ -3,14 +3,8 @@
 namespace Qonsillium;
 
 use Qonsillium\Exceptions\ {
-    FailedAcceptSocket,
     FailedConnectSocket,
-    FailedListenSocket,
-    FailedCreateSocket,
     FailedWriteSocket,
-    FailedCloseSocket,
-    FailedBindSocket,
-    FailedReadSocket
 };
 
 class SocketFacade
