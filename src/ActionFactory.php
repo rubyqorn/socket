@@ -39,6 +39,15 @@ class ActionFactory
     }
 
     /**
+     * Returns socket read legnth
+     * @return int 
+     */ 
+    private function getReadLength()
+    {
+        return $this->credentials->getCredential('content_length');
+    }
+
+    /**
      * @return \Qonsillium\Actions\SocketConnector 
      */ 
     public function getConnector(string $type)
@@ -59,7 +68,7 @@ class ActionFactory
      */ 
     public function getReader(): SocketReader
     {
-        return new SocketReader();
+        return new SocketReader($this->getReadLength());
     }
 
     /**

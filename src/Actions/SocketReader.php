@@ -10,6 +10,21 @@ class SocketReader extends AbstractSocketAction
     private string $message;
 
     /**
+     * @var int 
+     */ 
+    private int $length;
+
+    /**
+     * Initiate SocketReader constructor method 
+     * @param int $length 
+     * @return void 
+     */ 
+    public function __construct(int $length)
+    {   
+        $this->length = $length;
+    }
+
+    /**
      * @param string $message
      * @return void 
      */ 
@@ -32,7 +47,7 @@ class SocketReader extends AbstractSocketAction
      */ 
     public function make()
     {
-        $this->setMessage(fread($this->getSocket(), 2048));
+        $this->setMessage(fread($this->getSocket(), $this->length));
         return $this;
     }
 }
