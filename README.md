@@ -30,7 +30,7 @@ settings:
 ##### * UNIX socket configuration using YAML
 ```
 settings:
-    socket_type: tcp
+    socket_type: unix
     address: socket.sock
     content_length: 2048
 ```
