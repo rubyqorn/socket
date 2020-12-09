@@ -5,19 +5,15 @@ namespace Qonsillium;
 abstract class AbstractSocket
 {
     /**
-     * @var \Qonsillium\SocketFacade|null 
-     */ 
-    protected ?SocketFacade $facade = null;
-
-    /**
      * Initiate AbstractSocket constructor method 
      * and set SocketFacade property
      * @param \Qonsillium\SocketFacade $facade
      * @return void 
-     */ 
-    public function __construct(SocketFacade $facade)
-    {
-        $this->facade = $facade;
+     */
+    public function __construct(
+        protected SocketFacade $facade
+    ){
+        //
     }
 
     /**

@@ -12,9 +12,10 @@ abstract class SocketType
      * @param \Qonsillium\Types\TypeConfiguration
      * @return void
      */ 
-    public function __construct(TypeConfiguration $configuration)
-    {
-        $this->configuration = $configuration;
+    public function __construct(
+        protected TypeConfiguration $configuration
+    ){
+        //
     }
 
     /**

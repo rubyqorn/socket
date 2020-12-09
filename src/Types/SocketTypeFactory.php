@@ -6,9 +6,9 @@ class SocketTypeFactory
 {
     /**
      * Null object
-     * @var \Qonsillium\Types\NullSocketType 
+     * @var \Qonsillium\Types\SocketType 
      */ 
-    private $nullObj;
+    private SocketType $nullObj;
 
     /**
      * Initiate SocketTypeFactory and set TypeConfiguration
@@ -16,10 +16,10 @@ class SocketTypeFactory
      * stub method
      * @param \Qonsillium\Types\TypeConfiguration $configuration
      * @return void 
-     */ 
-    public function __construct(TypeConfiguration $configuration)
-    {
-        $this->configuration = $configuration;
+     */
+    public function __construct(
+        protected TypeConfiguration $configuration
+    ){
         $this->nullObj = new NullSocketType($this->configuration);
     }
 

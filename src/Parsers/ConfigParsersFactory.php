@@ -5,13 +5,6 @@ namespace Qonsillium\Parsers;
 class ConfigParsersFactory
 {
     /**
-     * Configuration file which
-     * will be parsed
-     * @var string 
-     */ 
-    protected string $configFile;
-
-    /**
      * File extension
      * @var string 
      */ 
@@ -20,20 +13,13 @@ class ConfigParsersFactory
     /**
      * Null object which make stub action.
      * Read: https://en.wikipedia.org/wiki/Null_object_pattern
-     * @var \Qonsillium\Parsers\NullConfigFile 
+     * @var \Qonsillium\Parsers\ConfigParser 
      */ 
-    protected $nullObj;
+    protected ConfigParser $nullObj;
 
-    /**
-     * Initiate ConfigParsersFactory constructor
-     * method and set config file, extension and
-     * null object
-     * @param string $configFile
-     * @return void 
-     */ 
-    public function __construct(string $configFile)
-    {
-        $this->configFile = $configFile;
+    public function __construct(
+        protected string $configFile,
+    ){
         $this->configFileExtension = pathinfo($this->configFile)['extension'];
         $this->nullObj = new NullConfigFile($this->configFile);
     }

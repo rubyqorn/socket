@@ -5,27 +5,21 @@ namespace Qonsillium\Types;
 class TypeConfiguration
 {
     /**
-     * Settings which was parsed
-     * by json_decode or yaml_parse_file
-     * @var array 
-     */ 
-    protected array $settings;
-
-    /**
      * Configured settings
      * @var array 
      */ 
     protected array $configured;
-
+    
     /**
      * Initiate TypeConfiguration constructor method
      * and set array with settings
      * @param array $settings 
      * @return void 
      */ 
-    public function __construct(array $settings)
-    {
-        $this->settings = $settings;
+    public function __construct(
+        protected array $settings
+    ){
+        //        
     }
 
     /**

@@ -10,18 +10,14 @@ class SocketReader extends AbstractSocketAction
     private string $message;
 
     /**
-     * @var int 
-     */ 
-    private int $length;
-
-    /**
      * Initiate SocketReader constructor method 
      * @param int $length 
      * @return void 
      */ 
-    public function __construct(int $length)
-    {   
-        $this->length = $length;
+    public function __construct(
+        private int $length
+    ){
+        //
     }
 
     /**
