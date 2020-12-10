@@ -6,26 +6,27 @@ use Qonsillium\Actions\Connections\ConnectionFactory;
 
 class SocketConnector extends AbstractSocketAction
 {
-    /**
-     * @var string 
-     */ 
-    private string $address;
+    // /**
+    //  * @var string 
+    //  */ 
+    // private string $address;
 
-    /**
-     * @var string 
-     */ 
-    private string $type;
+    // /**
+    //  * @var string 
+    //  */ 
+    // private string $type;
 
     /**
      * Initiate SocketConnector constructor method
      * @param string $method
      * @param string $type
-     * @return void 
+     * @return void  
      */ 
-    public function __construct(string $address, string $type)
-    {
-        $this->address = $address;
-        $this->type = $type;
+    public function __construct(
+        private string $address,
+        private string $type
+    ){
+        //    
     }
 
     /**

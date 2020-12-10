@@ -10,11 +10,6 @@ use Qonsillium\Exceptions\ {
 class SocketFacade
 {
     /**
-     * @var \Qonsillium\ActionFactory|null 
-     */ 
-    private ?ActionFactory $factory = null;
-
-    /**
      * Readed socket content 
      * @var string 
      */ 
@@ -26,9 +21,10 @@ class SocketFacade
      * @param \Qonsillium\ActionFactory $factory
      * @return void 
      */ 
-    public function __construct(ActionFactory $factory)
-    {
-        $this->factory = $factory;
+    public function __construct(
+        private ActionFactory $factory
+    ){
+        //
     }
 
     /**

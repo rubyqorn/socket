@@ -11,13 +11,6 @@ use Qonsillium\Types\SocketTypeFactory;
 class Bootstrapper
 {
     /**
-     * Configuration file with 
-     * yaml(yml) or json extension
-     * @var string 
-     */ 
-    protected string $configFile;
-
-    /**
      * List with domain, type, protocol,
      * host and port socket settings
      * @var array 
@@ -42,9 +35,9 @@ class Bootstrapper
      * @param string $configFile
      * @return void  
      */ 
-    public function __construct(string $configFile)
-    {
-        $this->configFile = $configFile;
+    public function __construct(
+        protected string $configFile
+    ){
         $this->services = new ServiceProvider();
         $this->settings = $this->parseConfigFile();
         $this->configuration = $this->configureSettingsFromFile();

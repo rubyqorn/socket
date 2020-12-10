@@ -5,22 +5,16 @@ namespace Qonsillium\Parsers;
 abstract class ConfigParser
 {
     /**
-     * Configuration file 
-     * with settings
-     * @var string 
-     */ 
-    protected string $file;
-
-    /**
      * Initiate ConfigParser constructor method.
      * Configuration file can be only with json
      * or yaml(yml) extensions
      * @param string $file
-     * @return void 
+     * @return void  
      */ 
-    public function __construct(string $file)
-    {
-        $this->file = $file;
+    public function __construct(
+        protected string $file
+    ){
+        //   
     }
 
     /**

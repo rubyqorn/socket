@@ -14,19 +14,15 @@ use Qonsillium\Actions\{
 class ActionFactory
 {
     /**
-     * @var \Qonsillium\Credential\SocketCredentials|null; 
-     */ 
-    private ?SocketCredentials $credentials = null;
-
-    /**
      * Initiate ActionFactory constructor method and
      * set SocketCredetials property
      * @param \Qonsillium\Credential\SocketCredentials $credentials
      * @return void 
-     */ 
-    public function __construct(SocketCredentials $credentials)
-    {
-        $this->credentials = $credentials;
+     */
+    public function __construct(
+        private SocketCredentials $credentials
+    ){
+        //
     }
 
     /**
