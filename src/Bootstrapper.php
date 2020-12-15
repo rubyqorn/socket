@@ -90,26 +90,6 @@ class Bootstrapper
     }
 
     /**
-     * Get setting value from from config file and match
-     * with constants locator constant and finally return 
-     * integer value about this const
-     * @param string $setting 
-     * @param string $const
-     * @throws \Qonsillium\Exceptions\ConfigSettingDoesntExists
-     * @return int 
-     */ 
-    protected function getConstValue(string $setting, string $const)
-    {
-        if (!$this->getSocketConstLocator()::hasConst($setting, $const)) {
-            throw new ConfigSettingDoesntExists(
-                "Setting with type: {$setting} and const name: {$const} doesn't exists"
-            );
-        }
-
-        return $this->getSocketConstLocator()::getConstValue($setting, $const);
-    }
-
-    /**
      * Configure settings from config file by
      * TypeConfiguration and return this instance
      * @return \Qonsillium\Types\TypeConfiguration  
@@ -119,22 +99,6 @@ class Bootstrapper
         $configuration = $this->getSocketConfigurator();
         $configuration->configure();
         return $configuration;
-    }
-
-    /**
-     * Returns SocketConstLocator which contain
-     * all socket settings constants. Usually
-     * used when need to get socket const integer
-     * value.
-     * 
-     * Example:
-     * $this->getSocketConstLocator()::MODIFIERS
-     * 
-     * @return string 
-     */ 
-    protected function getSocketConstLocator()
-    {
-        return $this->services->getFromList('socket_constants');
     }
 
     /**
