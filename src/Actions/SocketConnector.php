@@ -6,16 +6,6 @@ use Qonsillium\Actions\Connections\ConnectionFactory;
 
 class SocketConnector extends AbstractSocketAction
 {
-    // /**
-    //  * @var string 
-    //  */ 
-    // private string $address;
-
-    // /**
-    //  * @var string 
-    //  */ 
-    // private string $type;
-
     /**
      * Initiate SocketConnector constructor method
      * @param string $method
