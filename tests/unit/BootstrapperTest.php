@@ -23,10 +23,11 @@ class BootstrapperTest extends TestCase
             'Bootstrapper::setCredentials returns null, expected SocketCredentials instance'
         );
 
-        // $this->assertSame(
-        //     'tcp://127.0.0.1:8000',
-        //     $credentials->getCredential('host')
-        // );
+        $this->assertSame(
+            'tcp://127.0.0.1:8000',
+            $credentials->getCredential('host'),
+            'Bootstrapper::setCredentials, expected "tcp://127.0.0.1:8000" but got not the same string'
+        );
     }
 
     public function testGetConfigParsersFactoryReturnsSameInstance()
@@ -35,7 +36,8 @@ class BootstrapperTest extends TestCase
 
         $this->assertInstanceOf(
             ConfigParsersFactory::class, 
-            $boostrapper->getConfigParserFactory()
+            $boostrapper->getConfigParserFactory(),
+            'Bootstrapper::getConfigParserFactory expected type ConfigParsersFactory but getting null'
         );
     }
 
@@ -45,7 +47,8 @@ class BootstrapperTest extends TestCase
 
         $this->assertInstanceOf(
             SocketTypeFactory::class, 
-            $boostrapper->getSocketTypeFactory()
+            $boostrapper->getSocketTypeFactory(),
+            'Bootstrapper::getSocketTypeFactory expected type SocketTypeFactory but getting null'
         );
     }
 
@@ -55,7 +58,8 @@ class BootstrapperTest extends TestCase
 
         $this->assertInstanceOf(
             ActionFactory::class, 
-            $boostrapper->getSocketActionFactory()
+            $boostrapper->getSocketActionFactory(),
+            'Bootstrapper::getSocketActionFactory expected type ActionFactory but getting null'
         );
     }
 
@@ -65,7 +69,8 @@ class BootstrapperTest extends TestCase
 
         $this->assertInstanceOf(
             SocketFacade::class, 
-            $boostrapper->getSocketFacade()
+            $boostrapper->getSocketFacade(),
+            'Bootstrapper::getSocketFacade expected type SocketFacade but getting null'
         );
     }
 
@@ -75,7 +80,8 @@ class BootstrapperTest extends TestCase
 
         $this->assertInstanceOf(
             ClientSocket::class, 
-            $boostrapper->getClientSocket()
+            $boostrapper->getClientSocket(),
+            'Bootstrapper::getClientSocket expected type ClientSocket but getting null'
         );
     }
 
@@ -85,7 +91,8 @@ class BootstrapperTest extends TestCase
 
         $this->assertInstanceOf(
             ServerSocket::class, 
-            $boostrapper->getServerSocket()
+            $boostrapper->getServerSocket(),
+            'Bootstrapper::getServerSocket expected type getServerSocket but getting null'
         );
     }
 }
