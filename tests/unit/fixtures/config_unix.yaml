@@ -1,9 +1,4 @@
 settings:
-  socket_type: unix
-  domain: AF_UNIX
-  type: SOCK_STREAM
-  protocol: 0
-  backlog: 1
+  socket_type: tcp
   read_length: 2048
-  read_flag: MSG_WAITALL
-  socket_file: socket.sock
+  address: socket.sock

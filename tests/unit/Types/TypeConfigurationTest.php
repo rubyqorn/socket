@@ -13,8 +13,8 @@ class TypeConfigurationTest extends TestCase
         $configuration->configure();
 
         $this->assertTrue(
-            $configuration->validateSettingsExistence('domain'),
-            "TypeConfiguration::validateSettingExistence. Setting 'domain' doesn't exists in settings list"
+            $configuration->validateSettingsExistence('address'),
+            "TypeConfiguration::validateSettingExistence. Setting 'host' doesn't exists in settings list"
         );
     }
 
@@ -26,7 +26,7 @@ class TypeConfigurationTest extends TestCase
 
         $this->assertSame(
             '127.0.0.1',
-            $configuration->getConfigurationSetting('host'),
+            $configuration->getConfigurationSetting('address'),
             "TypeConfiguration::getConfigurationSetting. Expected '127.0.0.1', but got not the same string"
         );
     }

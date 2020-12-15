@@ -1,12 +1,7 @@
 {
     "settings": {
-        "socket_type": "unix",
-        "domain": "AF_UNIX",
-        "type": "SOCK_STREAM",
-        "protocol": "0",
-        "backkog": "1",
-        "read_length": "2048",
-        "read_flag": "MSG_WAITALL",
-        "socket_file": "socket.sock"
+        "socket_type": "tcp",
+        "content_length": "2048",
+        "address": "socket.sock"
     }
 }
