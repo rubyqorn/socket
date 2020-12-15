@@ -35,7 +35,7 @@ class QonsilliumSocket
      */ 
     protected function getClientSocket(): ClientSocket
     {
-        return $this->bootstrapper->getClientSocket();
+        return $this->bootstrapper->getClientSocketConnector();
     }
 
     /**
@@ -44,7 +44,7 @@ class QonsilliumSocket
      */ 
     protected function getServerSocket(): ServerSocket
     {
-        return $this->bootstrapper->getServerSocket();
+        return $this->bootstrapper->getServerSocketConnector();
     }
 
     /**
