@@ -12,20 +12,14 @@ use Qonsillium\Types\TypeConfiguration;
 class SocketServiceProvider implements IServiceProvider
 {
     /**
-     * Configuration file.
-     * Can be only with yaml(yml) or json extension
-     * @var string 
-     */ 
-    private string $configFile;
-
-    /**
      * Initiate SocketServiceProvider constructor method
      * @param string $configFile
      * @return void 
      */ 
-    public function __construct(string $configFile)
+    public function __construct(
+        private string $configFile)
     {
-        $this->configFile = $configFile;
+        //
     }
 
     /**
